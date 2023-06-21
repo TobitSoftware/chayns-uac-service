@@ -15,6 +15,10 @@
     "chayns-toolkit",
     "react"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "prebuild": "npm run build:proto",
     "build": "npm run build:cjs && npm run build:esm",
