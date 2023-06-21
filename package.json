@@ -1,19 +1,34 @@
 {
   "name": "@chayns/uac-service",
-  "version": "1.0.0",
-  "private": true,
+  "version": "0.0.37",
   "description": "",
+  "exports": {
+    ".": {
+      "require": "./lib/cjs/index.js",
+      "import": "./lib/esm/index.js",
+      "types": "./lib/cjs/index.d.ts"
+    }
+  },
+  "types": "./lib/cjs/index.d.ts",
   "keywords": [
     "chayns",
     "chayns-toolkit",
     "react"
   ],
   "scripts": {
-    "build": "chayns-toolkit build",
-    "dev": "chayns-toolkit dev",
-    "start": "chayns-toolkit dev",
-    "format": "prettier . --write",
-    "lint": "chayns-toolkit lint"
+    "prebuild": "npm run build:proto",
+    "build": "npm run build:cjs && npm run build:esm",
+    "postbuild": "npm run build:proto:copy",
+    "build:cjs": "tsc-silent --project tsconfig-cjs.json",
+    "build:esm": "tsc-silent --project tsconfig-esm.json",
+    "build:proto": "node scripts/gen-proto.mjs",
+    "build:proto:copy": "node scripts/copy-proto.mjs",
+    "watch:cjs": "npm run build:cjs -- --watch",
+    "watch:esm": "npm run build:esm -- --watch",
+    "watch": "npm run build:proto && concurrently npm:watch:cjs npm:watch:esm",
+    "prepublishOnly": "npm run build",
+    "publish:beta": "npm version prerelease --preid=beta && npm publish --tag=beta",
+    "format": "prettier . --write"
   },
   "prettier": {
     "proseWrap": "always",
@@ -24,20 +39,16 @@
     "extends": "@chayns-toolkit"
   },
   "dependencies": {
-    "chayns-components": "^4.24.25",
-    "prop-types": "^15.8.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "chayns-api": "^1.0.0",
-    "react-redux": "^8.0.4",
-    "@reduxjs/toolkit": "^1.8.6"
+    "concurrently": "^7.6.0",
+    "google-protobuf": "^3.21.2",
+    "long": "^5.2.1",
+    "protobufjs": "^7.2.2",
+    "protobufjs-cli": "^1.1.1",
+    "tsc-silent": "^1.2.2"
   },
   "devDependencies": {
-    "chayns-toolkit": "^2.0.0",
     "prettier": "^2.7.1",
     "prettier-plugin-packagejson": "^2.3.0",
-    "typescript": "^4.8.4",
-    "@types/react": "17.0.52",
-    "@types/react-dom": "17.0.18"
+    "typescript": "^4.8.4"
   }
 }

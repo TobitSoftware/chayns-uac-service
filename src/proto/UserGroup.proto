@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+message CreateUserGroupRequest {
+   repeated string users = 100;
+}
+message UserGroup {
+   int32 id = 1;
+   string showName = 2;
+   string description = 3;
+   string siteId = 4;
+   int32 pageId = 5;
+   int32 parentGroupId = 6;
+   int32 userCount = 7;
+   int32 invitationCount = 8;
+   bool isSystemGroup = 9;
+   bool enableMembercard = 10;
+   int32 walletReservationGroupId = 1001;
+   optional CreateUserGroupRequest createUserGroupRequest = 10000;
+   optional UserGroupMeta userGroupMeta = 10001;
+}
+
+message UserGroupMeta {
+   Decimal admissionFee = 100;
+   int64 admissionFeeArticleId = 101;
+   Decimal subscriptionPrice = 102;
+   int64 subscriptionArticleId = 103;
+   string membercardCancellationDescription = 104;
+   int32 subscriptionInterval = 105;
+   int32 walletReservationGroupId = 1001;
+}
+
+
+message UserGroups {
+   repeated UserGroup userGroups = 1;
+}

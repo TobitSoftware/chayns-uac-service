@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+message SiteInfo {
+   string siteId = 1;
+   int32 locationId = 2;
+   string siteName = 3;
+}
+
+message SiteInfos {
+   repeated SiteInfo siteInfos = 1;
+}

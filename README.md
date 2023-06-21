@@ -1,51 +1,51 @@
-<div align="center">
-    <h1>@chayns/uac-service</h1>
-    <p></p>
-    <a href="https://github.com/TobitSoftware/chayns-toolkit">
-        <img 
-            alt="Managed with chayns-toolkit" 
-            src="https://img.shields.io/badge/managed%20with-chayns--toolkit-%23000?style=for-the-badge"
-        />
-    </a>
-</div>
+## @chayns/uac-service
 
----
+With this package Uac groups can be requested and edited. The package works in the frontend as well as in the node backend. In the background, the package uses protobuf for communication with the uac-service.
 
-## Get Started
+### Installation in frontend projects
 
-To get started with working on the project first you have to install its
-dependencies:
-
-```bash
-npm install
+1. Install package ```npm install @chayns/uac-service```
+2. Create instance of UacServiceClient (could be in separate js/ts file in your project)
+```js
+export const client = new UacServiceClient({
+    getToken: async () => ((await getAccessToken()).accessToken || ""),
+    getDefaultSiteId: () => getSite().id,
+    logger: logger, // your chayns logger instance
+    getDefaultPersonId: () => getUser()?.personId || ""
+});
 ```
 
-Then you will have the following commands available:
+### Installation in node projects
 
-### `npm run dev`
+1. Install package ```npm install @chayns/uac-service```
+2. Create instance of UacServiceClient (could be in separate js/ts file in your project)
+```js
+export const client = new UacServiceClient({
+    getApiToken: async () => ((await getAccessToken()).accessToken || ""),
+    logger: logger, // your chayns logger instance
+});
+```
 
-This starts the project with a local server for development. Typically this will
-be on [`http://localhost:1234/`](http://localhost:1234/), but this
-[can be adjusted](https://github.com/TobitSoftware/chayns-toolkit#development-options).
+### Usage in front and backend projects
 
-### `npm run build`
+These are just a few examples, there are many more functions. 
 
-This builds your project for production.
+#### Create UserGroup
+```js
+const { id } = await client.createUserGroup({ showName: 'test name', users:['GER-TDNKN'], description: 'Beschreibung'});
+```
 
-> If you want to analyze your bundle size you can do so by passing the `-a` flag
-> to this command.
+#### Get all usergroups from site
+```js
+const result = await client.getUserGroups({ countUsers: true });
+```
 
-### `npm run lint`
+#### Get all users in group 
+```js
+const members = await client.getGroupMembers({ groupId: 1 });
+```
 
-Checks your project for errors and code quality.
-
-### `npm run format`
-
-Automatically formats all of the source code in your project.
-
----
-
-This project is based on
-[`chayns-toolkit`](https://github.com/TobitSoftware/chayns-toolkit). If you
-encounter any issues with the toolchain and the commands, please
-[open an issue](https://github.com/TobitSoftware/chayns-toolkit/issues/new).
+#### Add user to group
+```js
+await client.addUsersToGroup({ groupId: 1, members: [{personId: 'F69-1LT41'}] })
+```

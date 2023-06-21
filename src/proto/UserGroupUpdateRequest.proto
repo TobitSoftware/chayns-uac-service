@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+message UserGroupUpdateRequest {
+   string showName = 1;
+   string description = 2;
+   int32 pageId = 4;
+   int32 parentGroupId = 5;
+   bool enableMembercard = 6;
+   string membercardCancellationDescription = 7;
+}

@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+import "Decimal.proto";
+
+message GroupInvitation {
+   int32 id = 1;
+   int32 userGroupId = 2;
+   string siteId = 3;
+   string personId = 4;
+   InvitationStatus status = 5;
+   string groupName = 6;
+   Decimal admissionFee = 7;
+   Decimal subscriptionPrice = 8;
+   SubscriptionIntervalType subscriptionInterval = 9;
+   string createdBy = 10;
+   string firstname = 11;
+   string lastname = 12;
+}
+
+message GroupInvitations {
+   repeated GroupInvitation groupInvitations = 1;
+}
+
+enum InvitationStatus {
+   Pending = 0;
+   Accepted = 1;
+   Declined = 2;
+   Revoked = 3;
+}
+enum SubscriptionIntervalType {
+   ZERO = 0; // proto3 requires a zero value as the first item (it can be named anything)
+   Daily = 1;
+   Weekly = 7;
+   Monthly = 30;
+   Yearly = 365;
+}

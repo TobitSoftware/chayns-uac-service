@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+import "Timestamp.proto";
+
+message GroupMember {
+   string personId = 1;
+   Timestamp creationTime = 2;
+   Timestamp expirationTime = 3;
+   string firstname = 4;
+   string lastname = 5;
+   int32 userGroupId = 6;
+   Person creationUser = 7;
+   string siteId = 1000;
+   int64 subscriptionId = 1001;
+   string membercardUid = 1002;
+}
+
+message GroupMembers {
+   repeated GroupMember groupMembers = 1;
+}

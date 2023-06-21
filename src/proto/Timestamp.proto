@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message Timestamp {
+   sint64 value = 1;
+   uint32 scale = 2; // the scale of the timespan [default = DAYS]
+}

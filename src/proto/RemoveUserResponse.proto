@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+import "Timestamp.proto";
+
+message RemoveUserResponse {
+   Timestamp expirationTime = 1;
+}
