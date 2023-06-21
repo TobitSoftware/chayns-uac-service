@@ -7,6 +7,7 @@ With this package Uac groups can be requested and edited. The package works in t
 1. Install package ```npm install @chayns/uac-service```
 2. Create instance of UacServiceClient (could be in separate js/ts file in your project)
 ```js
+import { getAccessToken } from 'chayns-api';
 export const client = new UacServiceClient({
     getToken: async () => ((await getAccessToken()).accessToken || ""),
     getDefaultSiteId: () => getSite().id,
@@ -21,7 +22,7 @@ export const client = new UacServiceClient({
 2. Create instance of UacServiceClient (could be in separate js/ts file in your project)
 ```js
 export const client = new UacServiceClient({
-    getApiToken: async () => ((await getAccessToken()).accessToken || ""),
+    getApiToken: async () => accessToken,
     logger: logger, // your chayns logger instance
 });
 ```
