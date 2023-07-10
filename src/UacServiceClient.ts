@@ -85,6 +85,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
             authorization: `Bearer ${await this.getTokenForFetch(options.roles)}`,
             accept: 'application/protobuf',
             'content-type': 'application/protobuf',
+            'user-agent': '@chayns/uac-service package'
         }
 
         const fetchUrl = `${this.baseUrl}${options.withoutSiteId ? '' : (options?.siteId || (this.getDefaultSiteId && this.getDefaultSiteId())) || ""}/${url}`;
