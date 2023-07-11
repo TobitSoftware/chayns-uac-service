@@ -77,16 +77,28 @@ class UacServiceClient<T extends UacServiceClientOptions> {
 
         this.baseUrl = BaseUrl;
         this.isInNode = typeof window === 'undefined';
+
+        const notFoundMessage = "could not reach baseurl, fallback to default " + BaseUrl;
+
         if (baseUrl) {
             this.testBaseUrlPromise = new Promise(r => {
                 fetch(`${baseUrl}/_health`).then(x => {
                     if (x.ok) {
-                        this.baseUrl = baseUrl;
+                        logger?.info({
+                            message: 'Using custom baseUrl for uac-service',
+                        });
+                        this.baseUrl = baseUrl + "/";
                     } else {
-                        console.log("could not reach baseurl, fallback to default " + BaseUrl)
+                        logger?.info({
+                            message: notFoundMessage
+                        });
+                        console.log(notFoundMessage)
                     }
                 }).catch(() => {
-                    console.log("could not reach baseurl, fallback to default " + BaseUrl)
+                    logger?.info({
+                        message: notFoundMessage
+                    });
+                    console.log(notFoundMessage)
                 }).finally(() => {
                     r();
                 });
