@@ -65,12 +65,36 @@ class UacServiceClient<T extends UacServiceClientOptions> {
 
     private getDefaultPersonId;
 
+    private testBaseUrlPromise: Promise<void>;
+
+    private isInNode: boolean;
+
     constructor({ getDefaultSiteId, logger, baseUrl, getDefaultPersonId, ...rest }: T) {
         if ("getToken" in rest) this.getToken =  rest.getToken as UacServiceClientBrowserOptions["getToken"];
         if ("getApiToken" in rest) this.getApiToken = rest.getApiToken as UacServiceClientServerOptions["getApiToken"];
         this.getDefaultSiteId = getDefaultSiteId;
         this.logger = logger || new ConsoleLogger();
-        this.baseUrl = baseUrl || BaseUrl;
+
+        this.baseUrl = BaseUrl;
+        this.isInNode = typeof window === 'undefined';
+        if (baseUrl) {
+            this.testBaseUrlPromise = new Promise(r => {
+                fetch(`${baseUrl}/_health`).then(x => {
+                    if (x.ok) {
+                        this.baseUrl = baseUrl;
+                    } else {
+                        console.log("could not reach baseurl, fallback to default " + BaseUrl)
+                    }
+                }).catch(() => {
+                    console.log("could not reach baseurl, fallback to default " + BaseUrl)
+                }).finally(() => {
+                    r();
+                });
+            })
+        } else {
+            this.testBaseUrlPromise = Promise.resolve();
+        }
+
         this.getDefaultPersonId = getDefaultPersonId;
     }
 
@@ -81,13 +105,22 @@ class UacServiceClient<T extends UacServiceClientOptions> {
     }
 
     private async logFetch(url: string, params = {}, options: { siteId?: string; withoutSiteId?: boolean; roles: ApiRoles[]; }): Promise<Uint8Array> {
-        const headers = {
+        const headers: {
+            authorization: string;
+            accept: string;
+            'content-type': string;
+            'user-agent'?: string;
+        } = {
             authorization: `Bearer ${await this.getTokenForFetch(options.roles)}`,
             accept: 'application/protobuf',
-            'content-type': 'application/protobuf',
-            'user-agent': '@chayns/uac-service package'
+            'content-type': 'application/protobuf'
         }
 
+        if(this.isInNode) {
+            headers['user-agent'] = '@chayns/uac-service package';
+        }
+
+        await this.testBaseUrlPromise;
         const fetchUrl = `${this.baseUrl}${options.withoutSiteId ? '' : (options?.siteId || (this.getDefaultSiteId && this.getDefaultSiteId())) || ""}/${url}`;
         try {
             const result = await fetch(fetchUrl, { headers, ...params });
