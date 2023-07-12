@@ -46,11 +46,15 @@ type UacServiceClientServerOptions = UacServiceClientBaseOptions & {
 
 type UacServiceClientOptions = UacServiceClientBrowserOptions | UacServiceClientServerOptions;
 
-type RemoveSiteId<T extends UacServiceClientOptions, O extends { siteId: string }> = (T extends UacServiceClientOptionsWithSiteId ? (Omit<O, 'siteId'> & {
+type RemoveSiteId<T extends UacServiceClientOptions, O extends {
+    siteId: string
+}> = (T extends UacServiceClientOptionsWithSiteId ? (Omit<O, 'siteId'> & {
     siteId?: string;
 }) : O);
 
-type RemovePersonId<T extends UacServiceClientOptions, O extends { personId: string }> = (T extends UacServiceClientBrowserOptions ? Omit<O, 'personId'> : O);
+type RemovePersonId<T extends UacServiceClientOptions, O extends {
+    personId: string
+}> = (T extends UacServiceClientBrowserOptions ? Omit<O, 'personId'> : O);
 
 class UacServiceClient<T extends UacServiceClientOptions> {
     private getToken: (() => Promise<string>) | undefined;
@@ -70,39 +74,39 @@ class UacServiceClient<T extends UacServiceClientOptions> {
     private isInNode: boolean;
 
     constructor({ getDefaultSiteId, logger, baseUrl, getDefaultPersonId, ...rest }: T) {
-        if ("getToken" in rest) this.getToken =  rest.getToken as UacServiceClientBrowserOptions["getToken"];
-        if ("getApiToken" in rest) this.getApiToken = rest.getApiToken as UacServiceClientServerOptions["getApiToken"];
+        if ('getToken' in rest) this.getToken = rest.getToken as UacServiceClientBrowserOptions['getToken'];
+        if ('getApiToken' in rest) this.getApiToken = rest.getApiToken as UacServiceClientServerOptions['getApiToken'];
         this.getDefaultSiteId = getDefaultSiteId;
         this.logger = logger || new ConsoleLogger();
 
         this.baseUrl = BaseUrl;
         this.isInNode = typeof window === 'undefined';
 
-        const notFoundMessage = "could not reach baseurl, fallback to default " + BaseUrl;
+        const notFoundMessage = 'could not reach baseurl, fallback to default ' + BaseUrl;
 
         if (baseUrl) {
             this.testBaseUrlPromise = new Promise(r => {
                 fetch(`${baseUrl}/_health`).then(x => {
                     if (x.ok) {
                         logger?.info({
-                            message: 'Using custom baseUrl for uac-service',
+                            message: 'Using custom baseUrl for uac-service'
                         });
-                        this.baseUrl = baseUrl + "/";
+                        this.baseUrl = baseUrl + '/';
                     } else {
                         logger?.info({
                             message: notFoundMessage
                         });
-                        console.log(notFoundMessage)
+                        console.log(notFoundMessage);
                     }
                 }).catch(() => {
                     logger?.info({
                         message: notFoundMessage
                     });
-                    console.log(notFoundMessage)
+                    console.log(notFoundMessage);
                 }).finally(() => {
                     r();
                 });
-            })
+            });
         } else {
             this.testBaseUrlPromise = Promise.resolve();
         }
@@ -111,12 +115,16 @@ class UacServiceClient<T extends UacServiceClientOptions> {
     }
 
     private getTokenForFetch(roles: string[]): Promise<string> {
-        if(this.getToken) return this.getToken();
-        if(this.getApiToken) return this.getApiToken(roles);
-        throw new Error("No api token function provided");
+        if (this.getToken) return this.getToken();
+        if (this.getApiToken) return this.getApiToken(roles);
+        throw new Error('No api token function provided');
     }
 
-    private async logFetch(url: string, params = {}, options: { siteId?: string; withoutSiteId?: boolean; roles: ApiRoles[]; }): Promise<Uint8Array> {
+    private async logFetch(url: string, params = {}, options: {
+        siteId?: string;
+        withoutSiteId?: boolean;
+        roles: ApiRoles[];
+    }): Promise<Uint8Array> {
         const headers: {
             authorization: string;
             accept: string;
@@ -126,44 +134,45 @@ class UacServiceClient<T extends UacServiceClientOptions> {
             authorization: `Bearer ${await this.getTokenForFetch(options.roles)}`,
             accept: 'application/protobuf',
             'content-type': 'application/protobuf'
-        }
+        };
 
-        if(this.isInNode) {
+        if (this.isInNode) {
             headers['user-agent'] = '@chayns/uac-service package';
         }
 
         await this.testBaseUrlPromise;
-        const fetchUrl = `${this.baseUrl}${options.withoutSiteId ? '' : (options?.siteId || (this.getDefaultSiteId && this.getDefaultSiteId())) || ""}/${url}`;
+        const tempSiteId = (options?.siteId || (this.getDefaultSiteId && this.getDefaultSiteId()));
+        const fetchUrl = `${this.baseUrl}${options.withoutSiteId ? '' : (tempSiteId ? tempSiteId + '/' : '') || ''}${url}`;
         try {
             const result = await fetch(fetchUrl, { headers, ...params });
 
-            if(!result.ok) {
-                if(result.headers.get('content-type')?.includes('json')) {
+            if (!result.ok) {
+                if (result.headers.get('content-type')?.includes('json')) {
                     const exceptionData = await result.json() as TChaynsErrorResponse;
 
                     const exception = ChaynsError.Parse(exceptionData);
                     this.logger.error({
-                        message:`Failed to fetch ${fetchUrl}`
+                        message: `Failed to fetch ${fetchUrl}`
                     }, exception);
 
                     throw exception;
                 }
             }
 
-            if(result.headers.get('Deprecation')) {
+            if (result.headers.get('Deprecation')) {
                 this.logger.error({
-                    message: "Deprecated endpoint called",
+                    message: 'Deprecated endpoint called',
                     customText: fetchUrl,
                     data: {
                         deprecation: result.headers.get('Deprecation')
                     }
-                })
+                });
             }
             return new Uint8Array(await result.arrayBuffer());
-        } catch(e) {
-            if(!isChaynsError(e)) {
+        } catch (e) {
+            if (!isChaynsError(e)) {
                 this.logger.error({
-                    message:`Failed to fetch ${fetchUrl}`
+                    message: `Failed to fetch ${fetchUrl}`
                 }, e as Error);
             }
 
@@ -178,19 +187,24 @@ class UacServiceClient<T extends UacServiceClientOptions> {
      * @param countInvitations
      * @param withMeta
      */
-    async getUserGroups({ siteId, countUsers = false, countInvitations = false, withMeta = false }: RemoveSiteId<T, { siteId: string, countUsers?: boolean, countInvitations?: boolean, withMeta?: boolean }>) {
+    async getUserGroups({ siteId, countUsers = false, countInvitations = false, withMeta = false }: RemoveSiteId<T, {
+        siteId: string,
+        countUsers?: boolean,
+        countInvitations?: boolean,
+        withMeta?: boolean
+    }>) {
         const query = new URLSearchParams();
 
-        if(countUsers) query.set('countUsers', String(countUsers));
-        if(countInvitations) query.set('countInvitations', String(countInvitations));
-        if(withMeta) query.set('withMeta', String(withMeta));
+        if (countUsers) query.set('countUsers', String(countUsers));
+        if (countInvitations) query.set('countInvitations', String(countInvitations));
+        if (withMeta) query.set('withMeta', String(withMeta));
 
         const res = await this.logFetch(`UserGroup?${query.toString()}`, {}, {
             siteId,
-            roles: [ApiRoles.Read, ApiRoles.Manage],
+            roles: [ApiRoles.Read, ApiRoles.Manage]
         });
 
-        if(withMeta) {
+        if (withMeta) {
             return UserGroups.decode(res).userGroups.map((x) => ({
                 ...x,
                 admissionFee: convertDecimalToNumber(x.userGroupMeta.admissionFee),
@@ -200,9 +214,10 @@ class UacServiceClient<T extends UacServiceClientOptions> {
                 userGroupMeta: undefined
             })) as TFixedUserGroup[];
         } else {
-            return UserGroups.decode(res).userGroups as UserGroup[]
+            return UserGroups.decode(res).userGroups as UserGroup[];
         }
     }
+
     /**
      * Get a uac group by id
      * @param groupId
@@ -210,15 +225,20 @@ class UacServiceClient<T extends UacServiceClientOptions> {
      * @param countUsers
      * @param countInvitations
      */
-    async getUserGroup({ groupId, siteId, countUsers = false, countInvitations = false}: RemoveSiteId<T, {groupId: number, siteId: string, countInvitations?: boolean, countUsers?: boolean }>) {
+    async getUserGroup({ groupId, siteId, countUsers = false, countInvitations = false }: RemoveSiteId<T, {
+        groupId: number,
+        siteId: string,
+        countInvitations?: boolean,
+        countUsers?: boolean
+    }>) {
         const query = new URLSearchParams();
 
-        if(countUsers) query.set('countUsers', String(countUsers));
-        if(countInvitations) query.set('countInvitations', String(countInvitations));
+        if (countUsers) query.set('countUsers', String(countUsers));
+        if (countInvitations) query.set('countInvitations', String(countInvitations));
 
         const res = await this.logFetch(`UserGroup/${groupId.toString()}?${query.toString()}`, {}, {
             siteId,
-            roles: [ApiRoles.Read, ApiRoles.Manage],
+            roles: [ApiRoles.Read, ApiRoles.Manage]
         });
 
         return UserGroup.decode(res);
@@ -231,7 +251,13 @@ class UacServiceClient<T extends UacServiceClientOptions> {
      * @param skip
      * @param take
      */
-    async getGroupMembers({ groupId, siteId, skip, take, sortByDate }: RemoveSiteId<T, { groupId: number; siteId: string; skip?: number; take?: number; sortByDate?: boolean; }>): Promise<TFixedGroupMember[]> {
+    async getGroupMembers({ groupId, siteId, skip, take, sortByDate }: RemoveSiteId<T, {
+        groupId: number;
+        siteId: string;
+        skip?: number;
+        take?: number;
+        sortByDate?: boolean;
+    }>): Promise<TFixedGroupMember[]> {
         const query = new URLSearchParams();
 
         if (skip) {
@@ -246,7 +272,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
 
         const res = await this.logFetch(`UserGroup/${groupId}/Users?${query.toString()}`, {}, {
             siteId,
-            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers],
+            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers]
         });
 
         const { groupMembers } = GroupMembers.decode(res);
@@ -264,10 +290,14 @@ class UacServiceClient<T extends UacServiceClientOptions> {
      * @param siteId
      * @param groupId
      */
-    async getMembership({ personId, siteId, groupId }: RemoveSiteId<T, { personId: string, siteId: string, groupId: number }>) {
-        const res = await this.logFetch(`UserGroup/${groupId.toString()}/Users/${personId?.toString() || (this.getDefaultPersonId && this.getDefaultPersonId()) || ""}`, {}, {
+    async getMembership({ personId, siteId, groupId }: RemoveSiteId<T, {
+        personId: string,
+        siteId: string,
+        groupId: number
+    }>) {
+        const res = await this.logFetch(`UserGroup/${groupId.toString()}/Users/${personId?.toString() || (this.getDefaultPersonId && this.getDefaultPersonId()) || ''}`, {}, {
             siteId,
-            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers],
+            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers]
         });
 
         const decoded = GroupMember.decode(res);
@@ -275,7 +305,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
             ...decoded,
             creationTime: convertTimespanToISOString(decoded.creationTime),
             expirationTime: convertTimespanToISOString(decoded.expirationTime)
-        }
+        };
     }
 
     /**
@@ -286,7 +316,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
     async getGroupInvitations({ siteId, groupId }: RemoveSiteId<T, { siteId: string, groupId: number }>) {
         const res = await this.logFetch(`UserGroup/${groupId.toString()}/Invitations`, {}, {
             siteId,
-            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers],
+            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers]
         });
 
         return GroupInvitations.decode(res).groupInvitations;
@@ -301,12 +331,12 @@ class UacServiceClient<T extends UacServiceClientOptions> {
 
         const queryPersonId = this.getPersonId(options);
         if (queryPersonId) {
-            query.set('personId', queryPersonId)
+            query.set('personId', queryPersonId);
         }
 
         const res = await this.logFetch(`UserGroup/User?${query.toString()}`, {}, {
             siteId: options.siteId,
-            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers],
+            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers]
         });
 
         return UserGroups.decode(res).userGroups;
@@ -318,12 +348,16 @@ class UacServiceClient<T extends UacServiceClientOptions> {
      * @param siteId
      * @param personId
      */
-    async isUserInGroup({ groupId, siteId, personId }: RemoveSiteId<T, { groupId: number; siteId: string, personId: string }>) {
+    async isUserInGroup({ groupId, siteId, personId }: RemoveSiteId<T, {
+        groupId: number;
+        siteId: string,
+        personId: string
+    }>) {
         const query = new URLSearchParams({ personId });
 
         const res = await this.logFetch(`UserGroup/${groupId.toString()}/InGroup?${query.toString()}`, {}, {
             siteId,
-            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers],
+            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers]
         });
 
         return {
@@ -340,12 +374,12 @@ class UacServiceClient<T extends UacServiceClientOptions> {
 
         const queryPersonId = this.getPersonId(options);
         if (queryPersonId) {
-            query.set('personId', queryPersonId)
+            query.set('personId', queryPersonId);
         }
 
         const res = await this.logFetch(`UserGroup/${options.groupId.toString()}/Sites?${query.toString()}`, {}, {
             withoutSiteId: true,
-            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers],
+            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers]
         });
 
         return SiteInfos.decode(res).siteInfos;
@@ -357,26 +391,30 @@ class UacServiceClient<T extends UacServiceClientOptions> {
      * @param searchTerm
      * @param userGroupIds - optional list of usergroup ids to search in
      */
-    async searchMembers({ siteId, searchTerm, userGroupIds }: RemoveSiteId<T, { siteId: string, searchTerm: string, userGroupIds?: number[] }>): Promise<TFixedGroupMember[]> {
-        if(searchTerm.length < 3) {
-            throw new Error("Parameter searchTerm must at least 3 characters");
+    async searchMembers({ siteId, searchTerm, userGroupIds }: RemoveSiteId<T, {
+        siteId: string,
+        searchTerm: string,
+        userGroupIds?: number[]
+    }>): Promise<TFixedGroupMember[]> {
+        if (searchTerm.length < 3) {
+            throw new Error('Parameter searchTerm must at least 3 characters');
         }
 
         const query = new URLSearchParams({ query: searchTerm });
 
-        if(userGroupIds) {
+        if (userGroupIds) {
             query.set('userGroupIds', userGroupIds.join(','));
         }
 
         const res = await this.logFetch(`UserGroup/Users/Search?${query.toString()}`, {}, {
             siteId,
-            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers],
+            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers]
         });
 
         const { groupMembers } = GroupMembers.decode(res);
         return groupMembers.map((x) => ({
             ...x,
-            creationTime: convertTimespanToISOString(x.creationTime),
+            creationTime: convertTimespanToISOString(x.creationTime)
         }));
     }
 
@@ -389,15 +427,15 @@ class UacServiceClient<T extends UacServiceClientOptions> {
         const query = new URLSearchParams();
 
         const queryPersonId = personId || (this.getDefaultPersonId && this.getDefaultPersonId());
-        if(queryPersonId) query.set('personId', queryPersonId)
+        if (queryPersonId) query.set('personId', queryPersonId);
 
         let mainSiteId = siteId;
-        if(!mainSiteId && this.getDefaultSiteId) {
+        if (!mainSiteId && this.getDefaultSiteId) {
             mainSiteId = this.getDefaultSiteId();
         }
         const res = await this.logFetch(`Invitation/${mainSiteId}/Groups?${query.toString()}`, {}, {
             withoutSiteId: true,
-            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers],
+            roles: [ApiRoles.ReadMembers, ApiRoles.ManageMembers]
         });
 
         return UserGroups.decode(res).userGroups;
@@ -418,7 +456,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
         description,
         pageId,
         parentGroupId,
-        users = [],
+        users = []
     }: RemoveSiteId<T, {
         siteId: string;
         showName: string;
@@ -433,17 +471,17 @@ class UacServiceClient<T extends UacServiceClientOptions> {
             pageId,
             parentGroupId,
             createUserGroupRequest: {
-                users,
-            },
+                users
+            }
         };
 
         const message = UserGroup.create(userGroup);
 
-        const buffer  = UserGroup.encode(message).finish();
+        const buffer = UserGroup.encode(message).finish();
 
-        const res = await this.logFetch(`UserGroup`, {body: buffer, method: 'POST'}, {
+        const res = await this.logFetch(`UserGroup`, { body: buffer, method: 'POST' }, {
             siteId,
-            roles: [ApiRoles.Create, ApiRoles.Manage],
+            roles: [ApiRoles.Create, ApiRoles.Manage]
         });
 
         return UserGroup.decode(res);
@@ -455,9 +493,9 @@ class UacServiceClient<T extends UacServiceClientOptions> {
      * @param siteId
      */
     async copyUserGroup({ groupId, siteId }: RemoveSiteId<T, { groupId: number, siteId: string }>) {
-        const res = await this.logFetch(`UserGroup/${groupId.toString()}/Copy`, {method: 'POST'}, {
+        const res = await this.logFetch(`UserGroup/${groupId.toString()}/Copy`, { method: 'POST' }, {
             siteId,
-            roles: [ApiRoles.Create, ApiRoles.Manage],
+            roles: [ApiRoles.Create, ApiRoles.Manage]
         });
 
         return UserGroup.decode(res);
@@ -478,7 +516,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
         siteId,
         expirationTime,
         force,
-        ignoreConflict,
+        ignoreConflict
     }: RemoveSiteId<T, {
         personId: string;
         groupId: number;
@@ -489,34 +527,34 @@ class UacServiceClient<T extends UacServiceClientOptions> {
     }>): Promise<{ success: boolean }> {
         const query = new URLSearchParams();
 
-        if(force) query.set('force', String(force));
+        if (force) query.set('force', String(force));
 
         const groupMember: { personId: string; expirationTime?: TTimeSpan } = {
-            personId,
+            personId
         };
 
-        if(expirationTime) {
+        if (expirationTime) {
             groupMember.expirationTime = convertDateToProtoTimespan(expirationTime);
         }
 
         const message = GroupMember.create(groupMember);
 
-        const buffer  = GroupMember.encode(message).finish();
+        const buffer = GroupMember.encode(message).finish();
 
         try {
             await this.logFetch(`UserGroup/${groupId.toString()}/Users?${query.toString()}`, {
                 body: buffer,
-                method: 'POST',
+                method: 'POST'
             }, {
                 siteId,
-                roles: [ApiRoles.AddMembers, ApiRoles.ManageMembers],
+                roles: [ApiRoles.AddMembers, ApiRoles.ManageMembers]
             });
 
             return {
                 success: true
             };
-        } catch(e) {
-            if(!ignoreConflict) throw e;
+        } catch (e) {
+            if (!ignoreConflict) throw e;
             return {
                 success: false
             };
@@ -529,17 +567,21 @@ class UacServiceClient<T extends UacServiceClientOptions> {
      * @param siteId
      * @param members
      */
-    async addUsersToGroup({ groupId, siteId, members }: RemoveSiteId<T, { groupId: number, siteId: string, members: GroupMember[] }>) {
-        const message = GroupMembers.create({groupMembers: members});
+    async addUsersToGroup({ groupId, siteId, members }: RemoveSiteId<T, {
+        groupId: number,
+        siteId: string,
+        members: GroupMember[]
+    }>) {
+        const message = GroupMembers.create({ groupMembers: members });
 
-        const buffer  = GroupMembers.encode(message).finish();
+        const buffer = GroupMembers.encode(message).finish();
 
         const res = await this.logFetch(`UserGroup/${groupId.toString()}/Users/Bulk`, {
             body: buffer,
-            method: 'POST',
+            method: 'POST'
         }, {
             siteId,
-            roles: [ApiRoles.AddMembers, ApiRoles.ManageMembers],
+            roles: [ApiRoles.AddMembers, ApiRoles.ManageMembers]
         });
 
         return AddUserToGroupResponse.decode(res);
@@ -554,7 +596,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
     async updateUserGroup({
         groupId,
         siteId,
-        values,
+        values
     }: RemoveSiteId<T, {
         groupId: number;
         siteId: string;
@@ -568,11 +610,11 @@ class UacServiceClient<T extends UacServiceClientOptions> {
     }>) {
         const message = UserGroupUpdateRequest.create(values);
 
-        const buffer  = UserGroupUpdateRequest.encode(message).finish();
+        const buffer = UserGroupUpdateRequest.encode(message).finish();
 
-        const res = await this.logFetch(`UserGroup/${groupId.toString()}`, {body: buffer, method: 'PATCH'}, {
+        const res = await this.logFetch(`UserGroup/${groupId.toString()}`, { body: buffer, method: 'PATCH' }, {
             siteId,
-            roles: [ApiRoles.Edit, ApiRoles.Manage],
+            roles: [ApiRoles.Edit, ApiRoles.Manage]
         });
 
         return UserGroup.decode(res);
@@ -585,14 +627,19 @@ class UacServiceClient<T extends UacServiceClientOptions> {
      * @param siteId
      * @param expirationTime
      */
-    async updateMembership({ personId, groupId, siteId, expirationTime }: RemoveSiteId<T, { personId: string; groupId: number; siteId: string; expirationTime: string; }>) {
+    async updateMembership({ personId, groupId, siteId, expirationTime }: RemoveSiteId<T, {
+        personId: string;
+        groupId: number;
+        siteId: string;
+        expirationTime: string;
+    }>) {
         const message = UpdateUacMemberRequest.create({
             expirationTime: expirationTime ? convertDateToProtoTimespan(expirationTime) : null
         });
 
         const queryPersonId = personId || (this.getDefaultPersonId && this.getDefaultPersonId());
 
-        const buffer  = UpdateUacMemberRequest.encode(message).finish();
+        const buffer = UpdateUacMemberRequest.encode(message).finish();
 
         // function buf2hex(buffer2) { // buffer is an ArrayBuffer
         //     return [...new Uint8Array(buffer2)]
@@ -600,12 +647,12 @@ class UacServiceClient<T extends UacServiceClientOptions> {
         //         .join('');
         // }
         // console.log("buf", buf2hex(buffer))
-        const res = await this.logFetch(`UserGroup/${groupId.toString()}/Users/${queryPersonId || ""}`, {
+        const res = await this.logFetch(`UserGroup/${groupId.toString()}/Users/${queryPersonId || ''}`, {
             body: buffer,
-            method: 'PATCH',
+            method: 'PATCH'
         }, {
             siteId,
-            roles: [ApiRoles.ManageMembers],
+            roles: [ApiRoles.ManageMembers]
         });
 
         const decoded = GroupMember.decode(res);
@@ -624,7 +671,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
     async deleteUserGroup({ groupId, siteId }: RemoveSiteId<T, { groupId: number, siteId: string }>) {
         await this.logFetch(`UserGroup/${groupId.toString()}`, { method: 'DELETE' }, {
             siteId,
-            roles: [ApiRoles.Manage],
+            roles: [ApiRoles.Manage]
         });
 
         return null;
@@ -641,7 +688,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
         personId,
         groupId,
         siteId,
-        ignoreConflict,
+        ignoreConflict
     }: RemoveSiteId<T, {
         groupId: number;
         siteId: string;
@@ -654,7 +701,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
                 method: 'DELETE'
             }, {
                 siteId,
-                roles: [ApiRoles.ManageMembers],
+                roles: [ApiRoles.ManageMembers]
             });
             const decoded = RemoveUserResponse.decode(response);
 
@@ -662,12 +709,12 @@ class UacServiceClient<T extends UacServiceClientOptions> {
                 success: true,
                 expirationTime: convertTimespanToISOString(decoded.expirationTime)
             };
-        } catch(e) {
-            if(!ignoreConflict) throw e;
+        } catch (e) {
+            if (!ignoreConflict) throw e;
             return {
                 success: false,
                 expirationTime: undefined
-            }
+            };
         }
     }
 
