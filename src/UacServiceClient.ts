@@ -390,11 +390,15 @@ class UacServiceClient<T extends UacServiceClientOptions> {
      * @param siteId
      * @param searchTerm
      * @param userGroupIds - optional list of usergroup ids to search in
+     * @param skip - optional amount of results that should be skipped
+     * @param take - optional amount of results that should be returned
      */
-    async searchMembers({ siteId, searchTerm, userGroupIds }: RemoveSiteId<T, {
+    async searchMembers({ siteId, searchTerm, userGroupIds, skip, take }: RemoveSiteId<T, {
         siteId: string,
         searchTerm: string,
-        userGroupIds?: number[]
+        userGroupIds?: number[],
+        skip?: number,
+        take?: number,
     }>): Promise<TFixedGroupMember[]> {
         if (searchTerm.length < 3) {
             throw new Error('Parameter searchTerm must at least 3 characters');
@@ -404,6 +408,14 @@ class UacServiceClient<T extends UacServiceClientOptions> {
 
         if (userGroupIds) {
             query.set('userGroupIds', userGroupIds.join(','));
+        }
+
+        if (skip) {
+            query.append('skip', `${skip}`);
+        }
+
+        if (take) {
+            query.append('take', `${take}`);
         }
 
         const res = await this.logFetch(`UserGroup/Users/Search?${query.toString()}`, {}, {
