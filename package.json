@@ -9,6 +9,8 @@
       "types": "./lib/cjs/index.d.ts"
     }
   },
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "types": "./lib/cjs/index.d.ts",
   "keywords": [
     "chayns",
