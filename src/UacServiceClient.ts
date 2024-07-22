@@ -37,6 +37,7 @@ type UacServiceClientOptionsWithSiteId = {
 type UacServiceClientBrowserOptions = UacServiceClientBaseOptions & {
     getToken: () => Promise<string>;
     getDefaultPersonId: () => string;
+    getLanguage: () => string | undefined;
 };
 
 type UacServiceClientServerOptions = UacServiceClientBaseOptions & {
@@ -69,6 +70,8 @@ class UacServiceClient<T extends UacServiceClientOptions> {
 
     private getDefaultPersonId;
 
+    private getLanguage: () => string | undefined = () => undefined;
+
     private testBaseUrlPromise: Promise<void>;
 
     private isInNode: boolean;
@@ -76,6 +79,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
     constructor({ getDefaultSiteId, logger, baseUrl, getDefaultPersonId, ...rest }: T) {
         if ('getToken' in rest) this.getToken = rest.getToken as UacServiceClientBrowserOptions['getToken'];
         if ('getApiToken' in rest) this.getApiToken = rest.getApiToken as UacServiceClientServerOptions['getApiToken'];
+        if ('getLanguage' in rest) this.getLanguage = rest.getLanguage as UacServiceClientBrowserOptions['getLanguage'];
         this.getDefaultSiteId = getDefaultSiteId;
         this.logger = logger || new ConsoleLogger();
 
@@ -128,6 +132,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
         const headers: {
             authorization: string;
             accept: string;
+            'accept-language'?: string;
             'content-type': string;
             'user-agent'?: string;
         } = {
@@ -138,6 +143,11 @@ class UacServiceClient<T extends UacServiceClientOptions> {
 
         if (this.isInNode) {
             headers['user-agent'] = '@chayns/uac-service package';
+        }
+
+        const language = this.getLanguage();
+        if (language) {
+            headers['accept-language'] = language;
         }
 
         await this.testBaseUrlPromise;
