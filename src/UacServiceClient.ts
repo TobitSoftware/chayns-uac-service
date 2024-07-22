@@ -695,21 +695,24 @@ class UacServiceClient<T extends UacServiceClientOptions> {
      * @param groupId
      * @param siteId
      * @param ignoreConflict
+     * @param force whether to force remove user from known users even if still in any paid uac group
      */
     async removeUserFromGroup({
         personId,
         groupId,
         siteId,
-        ignoreConflict
+        ignoreConflict,
+        force = false,
     }: RemoveSiteId<T, {
         groupId: number;
         siteId: string;
         personId: string;
         ignoreConflict: boolean;
+        force?: boolean;
     }>): Promise<{ success: boolean, expirationTime: string | undefined }> { // TODO: why is here no exception?
         try {
             const queryPersonId = personId || (this.getDefaultPersonId && this.getDefaultPersonId());
-            const response = await this.logFetch(`UserGroup/${groupId.toString()}/Users/${queryPersonId}`, {
+            const response = await this.logFetch(`UserGroup/${groupId.toString()}/Users/${queryPersonId}?force=${force}`, {
                 method: 'DELETE'
             }, {
                 siteId,
