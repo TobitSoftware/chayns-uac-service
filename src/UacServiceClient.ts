@@ -710,9 +710,12 @@ class UacServiceClient<T extends UacServiceClientOptions> {
         ignoreConflict: boolean;
         force?: boolean;
     }>): Promise<{ success: boolean, expirationTime: string | undefined }> { // TODO: why is here no exception?
+        const query = new URLSearchParams();
+        if (force) query.set('force', String(force));
+
         try {
             const queryPersonId = personId || (this.getDefaultPersonId && this.getDefaultPersonId());
-            const response = await this.logFetch(`UserGroup/${groupId.toString()}/Users/${queryPersonId}?force=${force}`, {
+            const response = await this.logFetch(`UserGroup/${groupId.toString()}/Users/${queryPersonId}?${query.toString()}`, {
                 method: 'DELETE'
             }, {
                 siteId,
