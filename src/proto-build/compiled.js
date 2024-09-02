@@ -2014,6 +2014,8 @@ $root.UserGroup = (function() {
      * @property {number|null} [invitationCount] UserGroup invitationCount
      * @property {boolean|null} [isSystemGroup] UserGroup isSystemGroup
      * @property {boolean|null} [enableMembercard] UserGroup enableMembercard
+     * @property {boolean|null} [IsInternal] UserGroup IsInternal
+     * @property {boolean|null} [EnforceTwoFactorAuth] UserGroup EnforceTwoFactorAuth
      * @property {number|null} [walletReservationGroupId] UserGroup walletReservationGroupId
      * @property {ICreateUserGroupRequest|null} [createUserGroupRequest] UserGroup createUserGroupRequest
      * @property {IUserGroupMeta|null} [userGroupMeta] UserGroup userGroupMeta
@@ -2115,6 +2117,22 @@ $root.UserGroup = (function() {
     UserGroup.prototype.enableMembercard = false;
 
     /**
+     * UserGroup IsInternal.
+     * @member {boolean|null|undefined} IsInternal
+     * @memberof UserGroup
+     * @instance
+     */
+    UserGroup.prototype.IsInternal = null;
+
+    /**
+     * UserGroup EnforceTwoFactorAuth.
+     * @member {boolean|null|undefined} EnforceTwoFactorAuth
+     * @memberof UserGroup
+     * @instance
+     */
+    UserGroup.prototype.EnforceTwoFactorAuth = null;
+
+    /**
      * UserGroup walletReservationGroupId.
      * @member {number} walletReservationGroupId
      * @memberof UserGroup
@@ -2140,6 +2158,28 @@ $root.UserGroup = (function() {
 
     // OneOf field names bound to virtual getters and setters
     var $oneOfFields;
+
+    /**
+     * UserGroup _IsInternal.
+     * @member {"IsInternal"|undefined} _IsInternal
+     * @memberof UserGroup
+     * @instance
+     */
+    Object.defineProperty(UserGroup.prototype, "_IsInternal", {
+        get: $util.oneOfGetter($oneOfFields = ["IsInternal"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    /**
+     * UserGroup _EnforceTwoFactorAuth.
+     * @member {"EnforceTwoFactorAuth"|undefined} _EnforceTwoFactorAuth
+     * @memberof UserGroup
+     * @instance
+     */
+    Object.defineProperty(UserGroup.prototype, "_EnforceTwoFactorAuth", {
+        get: $util.oneOfGetter($oneOfFields = ["EnforceTwoFactorAuth"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
 
     /**
      * UserGroup _createUserGroupRequest.
@@ -2207,6 +2247,10 @@ $root.UserGroup = (function() {
             w.uint32(72).bool(m.isSystemGroup);
         if (m.enableMembercard != null && Object.hasOwnProperty.call(m, "enableMembercard"))
             w.uint32(80).bool(m.enableMembercard);
+        if (m.IsInternal != null && Object.hasOwnProperty.call(m, "IsInternal"))
+            w.uint32(88).bool(m.IsInternal);
+        if (m.EnforceTwoFactorAuth != null && Object.hasOwnProperty.call(m, "EnforceTwoFactorAuth"))
+            w.uint32(96).bool(m.EnforceTwoFactorAuth);
         if (m.walletReservationGroupId != null && Object.hasOwnProperty.call(m, "walletReservationGroupId"))
             w.uint32(8008).int32(m.walletReservationGroupId);
         if (m.createUserGroupRequest != null && Object.hasOwnProperty.call(m, "createUserGroupRequest"))
@@ -2274,6 +2318,14 @@ $root.UserGroup = (function() {
                     m.enableMembercard = r.bool();
                     break;
                 }
+            case 11: {
+                    m.IsInternal = r.bool();
+                    break;
+                }
+            case 12: {
+                    m.EnforceTwoFactorAuth = r.bool();
+                    break;
+                }
             case 1001: {
                     m.walletReservationGroupId = r.int32();
                     break;
@@ -2324,6 +2376,7 @@ $root.UserGroupMeta = (function() {
      * @property {number|Long|null} [subscriptionArticleId] UserGroupMeta subscriptionArticleId
      * @property {string|null} [membercardCancellationDescription] UserGroupMeta membercardCancellationDescription
      * @property {number|null} [subscriptionInterval] UserGroupMeta subscriptionInterval
+     * @property {number|null} [memberLimit] UserGroupMeta memberLimit
      * @property {number|null} [walletReservationGroupId] UserGroupMeta walletReservationGroupId
      */
 
@@ -2391,12 +2444,34 @@ $root.UserGroupMeta = (function() {
     UserGroupMeta.prototype.subscriptionInterval = 0;
 
     /**
+     * UserGroupMeta memberLimit.
+     * @member {number|null|undefined} memberLimit
+     * @memberof UserGroupMeta
+     * @instance
+     */
+    UserGroupMeta.prototype.memberLimit = null;
+
+    /**
      * UserGroupMeta walletReservationGroupId.
      * @member {number} walletReservationGroupId
      * @memberof UserGroupMeta
      * @instance
      */
     UserGroupMeta.prototype.walletReservationGroupId = 0;
+
+    // OneOf field names bound to virtual getters and setters
+    var $oneOfFields;
+
+    /**
+     * UserGroupMeta _memberLimit.
+     * @member {"memberLimit"|undefined} _memberLimit
+     * @memberof UserGroupMeta
+     * @instance
+     */
+    Object.defineProperty(UserGroupMeta.prototype, "_memberLimit", {
+        get: $util.oneOfGetter($oneOfFields = ["memberLimit"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
 
     /**
      * Creates a new UserGroupMeta instance using the specified properties.
@@ -2434,6 +2509,8 @@ $root.UserGroupMeta = (function() {
             w.uint32(834).string(m.membercardCancellationDescription);
         if (m.subscriptionInterval != null && Object.hasOwnProperty.call(m, "subscriptionInterval"))
             w.uint32(840).int32(m.subscriptionInterval);
+        if (m.memberLimit != null && Object.hasOwnProperty.call(m, "memberLimit"))
+            w.uint32(848).int32(m.memberLimit);
         if (m.walletReservationGroupId != null && Object.hasOwnProperty.call(m, "walletReservationGroupId"))
             w.uint32(8008).int32(m.walletReservationGroupId);
         return w;
@@ -2479,6 +2556,10 @@ $root.UserGroupMeta = (function() {
                 }
             case 105: {
                     m.subscriptionInterval = r.int32();
+                    break;
+                }
+            case 106: {
+                    m.memberLimit = r.int32();
                     break;
                 }
             case 1001: {
@@ -2637,6 +2718,8 @@ $root.UserGroupUpdateRequest = (function() {
      * @property {number|null} [parentGroupId] UserGroupUpdateRequest parentGroupId
      * @property {boolean|null} [enableMembercard] UserGroupUpdateRequest enableMembercard
      * @property {string|null} [membercardCancellationDescription] UserGroupUpdateRequest membercardCancellationDescription
+     * @property {boolean|null} [EnforceTwoFactorAuth] UserGroupUpdateRequest EnforceTwoFactorAuth
+     * @property {number|null} [MemberLimit] UserGroupUpdateRequest MemberLimit
      */
 
     /**
@@ -2703,6 +2786,47 @@ $root.UserGroupUpdateRequest = (function() {
     UserGroupUpdateRequest.prototype.membercardCancellationDescription = "";
 
     /**
+     * UserGroupUpdateRequest EnforceTwoFactorAuth.
+     * @member {boolean|null|undefined} EnforceTwoFactorAuth
+     * @memberof UserGroupUpdateRequest
+     * @instance
+     */
+    UserGroupUpdateRequest.prototype.EnforceTwoFactorAuth = null;
+
+    /**
+     * UserGroupUpdateRequest MemberLimit.
+     * @member {number|null|undefined} MemberLimit
+     * @memberof UserGroupUpdateRequest
+     * @instance
+     */
+    UserGroupUpdateRequest.prototype.MemberLimit = null;
+
+    // OneOf field names bound to virtual getters and setters
+    var $oneOfFields;
+
+    /**
+     * UserGroupUpdateRequest _EnforceTwoFactorAuth.
+     * @member {"EnforceTwoFactorAuth"|undefined} _EnforceTwoFactorAuth
+     * @memberof UserGroupUpdateRequest
+     * @instance
+     */
+    Object.defineProperty(UserGroupUpdateRequest.prototype, "_EnforceTwoFactorAuth", {
+        get: $util.oneOfGetter($oneOfFields = ["EnforceTwoFactorAuth"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    /**
+     * UserGroupUpdateRequest _MemberLimit.
+     * @member {"MemberLimit"|undefined} _MemberLimit
+     * @memberof UserGroupUpdateRequest
+     * @instance
+     */
+    Object.defineProperty(UserGroupUpdateRequest.prototype, "_MemberLimit", {
+        get: $util.oneOfGetter($oneOfFields = ["MemberLimit"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    /**
      * Creates a new UserGroupUpdateRequest instance using the specified properties.
      * @function create
      * @memberof UserGroupUpdateRequest
@@ -2738,6 +2862,10 @@ $root.UserGroupUpdateRequest = (function() {
             w.uint32(48).bool(m.enableMembercard);
         if (m.membercardCancellationDescription != null && Object.hasOwnProperty.call(m, "membercardCancellationDescription"))
             w.uint32(58).string(m.membercardCancellationDescription);
+        if (m.EnforceTwoFactorAuth != null && Object.hasOwnProperty.call(m, "EnforceTwoFactorAuth"))
+            w.uint32(64).bool(m.EnforceTwoFactorAuth);
+        if (m.MemberLimit != null && Object.hasOwnProperty.call(m, "MemberLimit"))
+            w.uint32(72).int32(m.MemberLimit);
         return w;
     };
 
@@ -2781,6 +2909,14 @@ $root.UserGroupUpdateRequest = (function() {
                 }
             case 7: {
                     m.membercardCancellationDescription = r.string();
+                    break;
+                }
+            case 8: {
+                    m.EnforceTwoFactorAuth = r.bool();
+                    break;
+                }
+            case 9: {
+                    m.MemberLimit = r.int32();
                     break;
                 }
             default:

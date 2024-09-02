@@ -834,6 +834,12 @@ export class UserGroup implements IUserGroup {
     /** UserGroup enableMembercard. */
     public enableMembercard: boolean;
 
+    /** UserGroup IsInternal. */
+    public IsInternal?: (boolean|null);
+
+    /** UserGroup EnforceTwoFactorAuth. */
+    public EnforceTwoFactorAuth?: (boolean|null);
+
     /** UserGroup walletReservationGroupId. */
     public walletReservationGroupId: number;
 
@@ -842,6 +848,12 @@ export class UserGroup implements IUserGroup {
 
     /** UserGroup userGroupMeta. */
     public userGroupMeta?: (IUserGroupMeta|null);
+
+    /** UserGroup _IsInternal. */
+    public _IsInternal?: "IsInternal";
+
+    /** UserGroup _EnforceTwoFactorAuth. */
+    public _EnforceTwoFactorAuth?: "EnforceTwoFactorAuth";
 
     /** UserGroup _createUserGroupRequest. */
     public _createUserGroupRequest?: "createUserGroupRequest";
@@ -909,8 +921,14 @@ export class UserGroupMeta implements IUserGroupMeta {
     /** UserGroupMeta subscriptionInterval. */
     public subscriptionInterval: number;
 
+    /** UserGroupMeta memberLimit. */
+    public memberLimit?: (number|null);
+
     /** UserGroupMeta walletReservationGroupId. */
     public walletReservationGroupId: number;
+
+    /** UserGroupMeta _memberLimit. */
+    public _memberLimit?: "memberLimit";
 
     /**
      * Creates a new UserGroupMeta instance using the specified properties.
@@ -1016,6 +1034,18 @@ export class UserGroupUpdateRequest implements IUserGroupUpdateRequest {
 
     /** UserGroupUpdateRequest membercardCancellationDescription. */
     public membercardCancellationDescription: string;
+
+    /** UserGroupUpdateRequest EnforceTwoFactorAuth. */
+    public EnforceTwoFactorAuth?: (boolean|null);
+
+    /** UserGroupUpdateRequest MemberLimit. */
+    public MemberLimit?: (number|null);
+
+    /** UserGroupUpdateRequest _EnforceTwoFactorAuth. */
+    public _EnforceTwoFactorAuth?: "EnforceTwoFactorAuth";
+
+    /** UserGroupUpdateRequest _MemberLimit. */
+    public _MemberLimit?: "MemberLimit";
 
     /**
      * Creates a new UserGroupUpdateRequest instance using the specified properties.
