@@ -221,6 +221,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
                 subscriptionPrice: convertDecimalToNumber(x.userGroupMeta.subscriptionPrice),
                 membercardCancellationDescription: x.userGroupMeta.membercardCancellationDescription,
                 subscriptionInterval: x.userGroupMeta.subscriptionInterval,
+                memberLimit: x.userGroupMeta.memberLimit,
                 userGroupMeta: undefined
             })) as TFixedUserGroup[];
         } else {
@@ -628,6 +629,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
             pageId: number;
             parentGroupId: number;
             enableMembercard: boolean;
+            memberLimit: number;
         };
     }>) {
         const message = UserGroupUpdateRequest.create(values);

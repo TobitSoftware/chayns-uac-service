@@ -7,6 +7,6 @@ message UserGroupUpdateRequest {
    int32 parentGroupId = 5;
    bool enableMembercard = 6;
    string membercardCancellationDescription = 7;
-   optional bool EnforceTwoFactorAuth = 8;
-   optional int32 MemberLimit = 9;
+   optional bool enforceTwoFactorAuth = 8;
+   optional int32 memberLimit = 9;
 }
