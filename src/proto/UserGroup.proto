@@ -14,8 +14,12 @@ message UserGroup {
    int32 invitationCount = 8;
    bool isSystemGroup = 9;
    bool enableMembercard = 10;
-   optional bool IsInternal = 11;
-   optional bool EnforceTwoFactorAuth = 12;
+   optional bool isInternal = 11;
+   optional bool enforceTwoFactorAuth = 12;
+   bool isWorkspace = 13;
+   optional int32 workspaceManagerGroupId = 14;
+   optional int32 workspaceAgentGroupId = 15;
+   bool isWorkspaceChild = 16;
    int32 walletReservationGroupId = 1001;
    optional CreateUserGroupRequest createUserGroupRequest = 10000;
    optional UserGroupMeta userGroupMeta = 10001;

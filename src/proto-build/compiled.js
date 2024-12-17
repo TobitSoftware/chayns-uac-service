@@ -2014,8 +2014,12 @@ $root.UserGroup = (function() {
      * @property {number|null} [invitationCount] UserGroup invitationCount
      * @property {boolean|null} [isSystemGroup] UserGroup isSystemGroup
      * @property {boolean|null} [enableMembercard] UserGroup enableMembercard
-     * @property {boolean|null} [IsInternal] UserGroup IsInternal
-     * @property {boolean|null} [EnforceTwoFactorAuth] UserGroup EnforceTwoFactorAuth
+     * @property {boolean|null} [isInternal] UserGroup isInternal
+     * @property {boolean|null} [enforceTwoFactorAuth] UserGroup enforceTwoFactorAuth
+     * @property {boolean|null} [isWorkspace] UserGroup isWorkspace
+     * @property {number|null} [workspaceManagerGroupId] UserGroup workspaceManagerGroupId
+     * @property {number|null} [workspaceAgentGroupId] UserGroup workspaceAgentGroupId
+     * @property {boolean|null} [isWorkspaceChild] UserGroup isWorkspaceChild
      * @property {number|null} [walletReservationGroupId] UserGroup walletReservationGroupId
      * @property {ICreateUserGroupRequest|null} [createUserGroupRequest] UserGroup createUserGroupRequest
      * @property {IUserGroupMeta|null} [userGroupMeta] UserGroup userGroupMeta
@@ -2117,20 +2121,52 @@ $root.UserGroup = (function() {
     UserGroup.prototype.enableMembercard = false;
 
     /**
-     * UserGroup IsInternal.
-     * @member {boolean|null|undefined} IsInternal
+     * UserGroup isInternal.
+     * @member {boolean|null|undefined} isInternal
      * @memberof UserGroup
      * @instance
      */
-    UserGroup.prototype.IsInternal = null;
+    UserGroup.prototype.isInternal = null;
 
     /**
-     * UserGroup EnforceTwoFactorAuth.
-     * @member {boolean|null|undefined} EnforceTwoFactorAuth
+     * UserGroup enforceTwoFactorAuth.
+     * @member {boolean|null|undefined} enforceTwoFactorAuth
      * @memberof UserGroup
      * @instance
      */
-    UserGroup.prototype.EnforceTwoFactorAuth = null;
+    UserGroup.prototype.enforceTwoFactorAuth = null;
+
+    /**
+     * UserGroup isWorkspace.
+     * @member {boolean} isWorkspace
+     * @memberof UserGroup
+     * @instance
+     */
+    UserGroup.prototype.isWorkspace = false;
+
+    /**
+     * UserGroup workspaceManagerGroupId.
+     * @member {number|null|undefined} workspaceManagerGroupId
+     * @memberof UserGroup
+     * @instance
+     */
+    UserGroup.prototype.workspaceManagerGroupId = null;
+
+    /**
+     * UserGroup workspaceAgentGroupId.
+     * @member {number|null|undefined} workspaceAgentGroupId
+     * @memberof UserGroup
+     * @instance
+     */
+    UserGroup.prototype.workspaceAgentGroupId = null;
+
+    /**
+     * UserGroup isWorkspaceChild.
+     * @member {boolean} isWorkspaceChild
+     * @memberof UserGroup
+     * @instance
+     */
+    UserGroup.prototype.isWorkspaceChild = false;
 
     /**
      * UserGroup walletReservationGroupId.
@@ -2160,24 +2196,46 @@ $root.UserGroup = (function() {
     var $oneOfFields;
 
     /**
-     * UserGroup _IsInternal.
-     * @member {"IsInternal"|undefined} _IsInternal
+     * UserGroup _isInternal.
+     * @member {"isInternal"|undefined} _isInternal
      * @memberof UserGroup
      * @instance
      */
-    Object.defineProperty(UserGroup.prototype, "_IsInternal", {
-        get: $util.oneOfGetter($oneOfFields = ["IsInternal"]),
+    Object.defineProperty(UserGroup.prototype, "_isInternal", {
+        get: $util.oneOfGetter($oneOfFields = ["isInternal"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
     /**
-     * UserGroup _EnforceTwoFactorAuth.
-     * @member {"EnforceTwoFactorAuth"|undefined} _EnforceTwoFactorAuth
+     * UserGroup _enforceTwoFactorAuth.
+     * @member {"enforceTwoFactorAuth"|undefined} _enforceTwoFactorAuth
      * @memberof UserGroup
      * @instance
      */
-    Object.defineProperty(UserGroup.prototype, "_EnforceTwoFactorAuth", {
-        get: $util.oneOfGetter($oneOfFields = ["EnforceTwoFactorAuth"]),
+    Object.defineProperty(UserGroup.prototype, "_enforceTwoFactorAuth", {
+        get: $util.oneOfGetter($oneOfFields = ["enforceTwoFactorAuth"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    /**
+     * UserGroup _workspaceManagerGroupId.
+     * @member {"workspaceManagerGroupId"|undefined} _workspaceManagerGroupId
+     * @memberof UserGroup
+     * @instance
+     */
+    Object.defineProperty(UserGroup.prototype, "_workspaceManagerGroupId", {
+        get: $util.oneOfGetter($oneOfFields = ["workspaceManagerGroupId"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    /**
+     * UserGroup _workspaceAgentGroupId.
+     * @member {"workspaceAgentGroupId"|undefined} _workspaceAgentGroupId
+     * @memberof UserGroup
+     * @instance
+     */
+    Object.defineProperty(UserGroup.prototype, "_workspaceAgentGroupId", {
+        get: $util.oneOfGetter($oneOfFields = ["workspaceAgentGroupId"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
@@ -2247,10 +2305,18 @@ $root.UserGroup = (function() {
             w.uint32(72).bool(m.isSystemGroup);
         if (m.enableMembercard != null && Object.hasOwnProperty.call(m, "enableMembercard"))
             w.uint32(80).bool(m.enableMembercard);
-        if (m.IsInternal != null && Object.hasOwnProperty.call(m, "IsInternal"))
-            w.uint32(88).bool(m.IsInternal);
-        if (m.EnforceTwoFactorAuth != null && Object.hasOwnProperty.call(m, "EnforceTwoFactorAuth"))
-            w.uint32(96).bool(m.EnforceTwoFactorAuth);
+        if (m.isInternal != null && Object.hasOwnProperty.call(m, "isInternal"))
+            w.uint32(88).bool(m.isInternal);
+        if (m.enforceTwoFactorAuth != null && Object.hasOwnProperty.call(m, "enforceTwoFactorAuth"))
+            w.uint32(96).bool(m.enforceTwoFactorAuth);
+        if (m.isWorkspace != null && Object.hasOwnProperty.call(m, "isWorkspace"))
+            w.uint32(104).bool(m.isWorkspace);
+        if (m.workspaceManagerGroupId != null && Object.hasOwnProperty.call(m, "workspaceManagerGroupId"))
+            w.uint32(112).int32(m.workspaceManagerGroupId);
+        if (m.workspaceAgentGroupId != null && Object.hasOwnProperty.call(m, "workspaceAgentGroupId"))
+            w.uint32(120).int32(m.workspaceAgentGroupId);
+        if (m.isWorkspaceChild != null && Object.hasOwnProperty.call(m, "isWorkspaceChild"))
+            w.uint32(128).bool(m.isWorkspaceChild);
         if (m.walletReservationGroupId != null && Object.hasOwnProperty.call(m, "walletReservationGroupId"))
             w.uint32(8008).int32(m.walletReservationGroupId);
         if (m.createUserGroupRequest != null && Object.hasOwnProperty.call(m, "createUserGroupRequest"))
@@ -2319,11 +2385,27 @@ $root.UserGroup = (function() {
                     break;
                 }
             case 11: {
-                    m.IsInternal = r.bool();
+                    m.isInternal = r.bool();
                     break;
                 }
             case 12: {
-                    m.EnforceTwoFactorAuth = r.bool();
+                    m.enforceTwoFactorAuth = r.bool();
+                    break;
+                }
+            case 13: {
+                    m.isWorkspace = r.bool();
+                    break;
+                }
+            case 14: {
+                    m.workspaceManagerGroupId = r.int32();
+                    break;
+                }
+            case 15: {
+                    m.workspaceAgentGroupId = r.int32();
+                    break;
+                }
+            case 16: {
+                    m.isWorkspaceChild = r.bool();
                     break;
                 }
             case 1001: {
@@ -2718,8 +2800,9 @@ $root.UserGroupUpdateRequest = (function() {
      * @property {number|null} [parentGroupId] UserGroupUpdateRequest parentGroupId
      * @property {boolean|null} [enableMembercard] UserGroupUpdateRequest enableMembercard
      * @property {string|null} [membercardCancellationDescription] UserGroupUpdateRequest membercardCancellationDescription
-     * @property {boolean|null} [EnforceTwoFactorAuth] UserGroupUpdateRequest EnforceTwoFactorAuth
-     * @property {number|null} [MemberLimit] UserGroupUpdateRequest MemberLimit
+     * @property {boolean|null} [enforceTwoFactorAuth] UserGroupUpdateRequest enforceTwoFactorAuth
+     * @property {number|null} [memberLimit] UserGroupUpdateRequest memberLimit
+     * @property {boolean|null} [isWorkspace] UserGroupUpdateRequest isWorkspace
      */
 
     /**
@@ -2786,43 +2869,62 @@ $root.UserGroupUpdateRequest = (function() {
     UserGroupUpdateRequest.prototype.membercardCancellationDescription = "";
 
     /**
-     * UserGroupUpdateRequest EnforceTwoFactorAuth.
-     * @member {boolean|null|undefined} EnforceTwoFactorAuth
+     * UserGroupUpdateRequest enforceTwoFactorAuth.
+     * @member {boolean|null|undefined} enforceTwoFactorAuth
      * @memberof UserGroupUpdateRequest
      * @instance
      */
-    UserGroupUpdateRequest.prototype.EnforceTwoFactorAuth = null;
+    UserGroupUpdateRequest.prototype.enforceTwoFactorAuth = null;
 
     /**
-     * UserGroupUpdateRequest MemberLimit.
-     * @member {number|null|undefined} MemberLimit
+     * UserGroupUpdateRequest memberLimit.
+     * @member {number|null|undefined} memberLimit
      * @memberof UserGroupUpdateRequest
      * @instance
      */
-    UserGroupUpdateRequest.prototype.MemberLimit = null;
+    UserGroupUpdateRequest.prototype.memberLimit = null;
+
+    /**
+     * UserGroupUpdateRequest isWorkspace.
+     * @member {boolean|null|undefined} isWorkspace
+     * @memberof UserGroupUpdateRequest
+     * @instance
+     */
+    UserGroupUpdateRequest.prototype.isWorkspace = null;
 
     // OneOf field names bound to virtual getters and setters
     var $oneOfFields;
 
     /**
-     * UserGroupUpdateRequest _EnforceTwoFactorAuth.
-     * @member {"EnforceTwoFactorAuth"|undefined} _EnforceTwoFactorAuth
+     * UserGroupUpdateRequest _enforceTwoFactorAuth.
+     * @member {"enforceTwoFactorAuth"|undefined} _enforceTwoFactorAuth
      * @memberof UserGroupUpdateRequest
      * @instance
      */
-    Object.defineProperty(UserGroupUpdateRequest.prototype, "_EnforceTwoFactorAuth", {
-        get: $util.oneOfGetter($oneOfFields = ["EnforceTwoFactorAuth"]),
+    Object.defineProperty(UserGroupUpdateRequest.prototype, "_enforceTwoFactorAuth", {
+        get: $util.oneOfGetter($oneOfFields = ["enforceTwoFactorAuth"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
     /**
-     * UserGroupUpdateRequest _MemberLimit.
-     * @member {"MemberLimit"|undefined} _MemberLimit
+     * UserGroupUpdateRequest _memberLimit.
+     * @member {"memberLimit"|undefined} _memberLimit
      * @memberof UserGroupUpdateRequest
      * @instance
      */
-    Object.defineProperty(UserGroupUpdateRequest.prototype, "_MemberLimit", {
-        get: $util.oneOfGetter($oneOfFields = ["MemberLimit"]),
+    Object.defineProperty(UserGroupUpdateRequest.prototype, "_memberLimit", {
+        get: $util.oneOfGetter($oneOfFields = ["memberLimit"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    /**
+     * UserGroupUpdateRequest _isWorkspace.
+     * @member {"isWorkspace"|undefined} _isWorkspace
+     * @memberof UserGroupUpdateRequest
+     * @instance
+     */
+    Object.defineProperty(UserGroupUpdateRequest.prototype, "_isWorkspace", {
+        get: $util.oneOfGetter($oneOfFields = ["isWorkspace"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
@@ -2862,10 +2964,12 @@ $root.UserGroupUpdateRequest = (function() {
             w.uint32(48).bool(m.enableMembercard);
         if (m.membercardCancellationDescription != null && Object.hasOwnProperty.call(m, "membercardCancellationDescription"))
             w.uint32(58).string(m.membercardCancellationDescription);
-        if (m.EnforceTwoFactorAuth != null && Object.hasOwnProperty.call(m, "EnforceTwoFactorAuth"))
-            w.uint32(64).bool(m.EnforceTwoFactorAuth);
-        if (m.MemberLimit != null && Object.hasOwnProperty.call(m, "MemberLimit"))
-            w.uint32(72).int32(m.MemberLimit);
+        if (m.enforceTwoFactorAuth != null && Object.hasOwnProperty.call(m, "enforceTwoFactorAuth"))
+            w.uint32(64).bool(m.enforceTwoFactorAuth);
+        if (m.memberLimit != null && Object.hasOwnProperty.call(m, "memberLimit"))
+            w.uint32(72).int32(m.memberLimit);
+        if (m.isWorkspace != null && Object.hasOwnProperty.call(m, "isWorkspace"))
+            w.uint32(80).bool(m.isWorkspace);
         return w;
     };
 
@@ -2912,11 +3016,15 @@ $root.UserGroupUpdateRequest = (function() {
                     break;
                 }
             case 8: {
-                    m.EnforceTwoFactorAuth = r.bool();
+                    m.enforceTwoFactorAuth = r.bool();
                     break;
                 }
             case 9: {
-                    m.MemberLimit = r.int32();
+                    m.memberLimit = r.int32();
+                    break;
+                }
+            case 10: {
+                    m.isWorkspace = r.bool();
                     break;
                 }
             default:

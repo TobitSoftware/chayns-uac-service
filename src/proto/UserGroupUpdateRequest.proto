@@ -9,4 +9,5 @@ message UserGroupUpdateRequest {
    string membercardCancellationDescription = 7;
    optional bool enforceTwoFactorAuth = 8;
    optional int32 memberLimit = 9;
+   optional bool isWorkspace = 10;
 }

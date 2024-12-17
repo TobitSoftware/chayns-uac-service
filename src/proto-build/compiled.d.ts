@@ -834,11 +834,23 @@ export class UserGroup implements IUserGroup {
     /** UserGroup enableMembercard. */
     public enableMembercard: boolean;
 
-    /** UserGroup IsInternal. */
-    public IsInternal?: (boolean|null);
+    /** UserGroup isInternal. */
+    public isInternal?: (boolean|null);
 
-    /** UserGroup EnforceTwoFactorAuth. */
-    public EnforceTwoFactorAuth?: (boolean|null);
+    /** UserGroup enforceTwoFactorAuth. */
+    public enforceTwoFactorAuth?: (boolean|null);
+
+    /** UserGroup isWorkspace. */
+    public isWorkspace: boolean;
+
+    /** UserGroup workspaceManagerGroupId. */
+    public workspaceManagerGroupId?: (number|null);
+
+    /** UserGroup workspaceAgentGroupId. */
+    public workspaceAgentGroupId?: (number|null);
+
+    /** UserGroup isWorkspaceChild. */
+    public isWorkspaceChild: boolean;
 
     /** UserGroup walletReservationGroupId. */
     public walletReservationGroupId: number;
@@ -849,11 +861,17 @@ export class UserGroup implements IUserGroup {
     /** UserGroup userGroupMeta. */
     public userGroupMeta?: (IUserGroupMeta|null);
 
-    /** UserGroup _IsInternal. */
-    public _IsInternal?: "IsInternal";
+    /** UserGroup _isInternal. */
+    public _isInternal?: "isInternal";
 
-    /** UserGroup _EnforceTwoFactorAuth. */
-    public _EnforceTwoFactorAuth?: "EnforceTwoFactorAuth";
+    /** UserGroup _enforceTwoFactorAuth. */
+    public _enforceTwoFactorAuth?: "enforceTwoFactorAuth";
+
+    /** UserGroup _workspaceManagerGroupId. */
+    public _workspaceManagerGroupId?: "workspaceManagerGroupId";
+
+    /** UserGroup _workspaceAgentGroupId. */
+    public _workspaceAgentGroupId?: "workspaceAgentGroupId";
 
     /** UserGroup _createUserGroupRequest. */
     public _createUserGroupRequest?: "createUserGroupRequest";
@@ -1035,17 +1053,23 @@ export class UserGroupUpdateRequest implements IUserGroupUpdateRequest {
     /** UserGroupUpdateRequest membercardCancellationDescription. */
     public membercardCancellationDescription: string;
 
-    /** UserGroupUpdateRequest EnforceTwoFactorAuth. */
-    public EnforceTwoFactorAuth?: (boolean|null);
+    /** UserGroupUpdateRequest enforceTwoFactorAuth. */
+    public enforceTwoFactorAuth?: (boolean|null);
 
-    /** UserGroupUpdateRequest MemberLimit. */
-    public MemberLimit?: (number|null);
+    /** UserGroupUpdateRequest memberLimit. */
+    public memberLimit?: (number|null);
 
-    /** UserGroupUpdateRequest _EnforceTwoFactorAuth. */
-    public _EnforceTwoFactorAuth?: "EnforceTwoFactorAuth";
+    /** UserGroupUpdateRequest isWorkspace. */
+    public isWorkspace?: (boolean|null);
 
-    /** UserGroupUpdateRequest _MemberLimit. */
-    public _MemberLimit?: "MemberLimit";
+    /** UserGroupUpdateRequest _enforceTwoFactorAuth. */
+    public _enforceTwoFactorAuth?: "enforceTwoFactorAuth";
+
+    /** UserGroupUpdateRequest _memberLimit. */
+    public _memberLimit?: "memberLimit";
+
+    /** UserGroupUpdateRequest _isWorkspace. */
+    public _isWorkspace?: "isWorkspace";
 
     /**
      * Creates a new UserGroupUpdateRequest instance using the specified properties.
