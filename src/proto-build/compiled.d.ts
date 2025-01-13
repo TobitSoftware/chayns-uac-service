@@ -154,6 +154,9 @@ export interface IGroupInvitation {
 
     /** GroupInvitation lastname */
     lastname?: (string|null);
+
+    /** GroupInvitation type */
+    type?: (number|null);
 }
 
 /** Represents a GroupInvitation. */
@@ -200,6 +203,9 @@ export class GroupInvitation implements IGroupInvitation {
 
     /** GroupInvitation lastname. */
     public lastname: string;
+
+    /** GroupInvitation type. */
+    public type: number;
 
     /**
      * Creates a new GroupInvitation instance using the specified properties.

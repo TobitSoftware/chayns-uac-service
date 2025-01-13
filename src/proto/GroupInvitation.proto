@@ -15,6 +15,7 @@ message GroupInvitation {
    string createdBy = 10;
    string firstname = 11;
    string lastname = 12;
+   int32 type = 17;
 }
 
 message GroupInvitations {

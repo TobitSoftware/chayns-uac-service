@@ -275,6 +275,7 @@ $root.GroupInvitation = (function() {
      * @property {string|null} [createdBy] GroupInvitation createdBy
      * @property {string|null} [firstname] GroupInvitation firstname
      * @property {string|null} [lastname] GroupInvitation lastname
+     * @property {number|null} [type] GroupInvitation type
      */
 
     /**
@@ -389,6 +390,14 @@ $root.GroupInvitation = (function() {
     GroupInvitation.prototype.lastname = "";
 
     /**
+     * GroupInvitation type.
+     * @member {number} type
+     * @memberof GroupInvitation
+     * @instance
+     */
+    GroupInvitation.prototype.type = 0;
+
+    /**
      * Creates a new GroupInvitation instance using the specified properties.
      * @function create
      * @memberof GroupInvitation
@@ -436,6 +445,8 @@ $root.GroupInvitation = (function() {
             w.uint32(90).string(m.firstname);
         if (m.lastname != null && Object.hasOwnProperty.call(m, "lastname"))
             w.uint32(98).string(m.lastname);
+        if (m.type != null && Object.hasOwnProperty.call(m, "type"))
+            w.uint32(136).int32(m.type);
         return w;
     };
 
@@ -503,6 +514,10 @@ $root.GroupInvitation = (function() {
                 }
             case 12: {
                     m.lastname = r.string();
+                    break;
+                }
+            case 17: {
+                    m.type = r.int32();
                     break;
                 }
             default:
