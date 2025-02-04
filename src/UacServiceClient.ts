@@ -222,7 +222,10 @@ class UacServiceClient<T extends UacServiceClientOptions> {
                 membercardCancellationDescription: x.userGroupMeta.membercardCancellationDescription,
                 subscriptionInterval: x.userGroupMeta.subscriptionInterval,
                 memberLimit: x.userGroupMeta.memberLimit,
-                customMetadata: x.userGroupMeta.customMetadata,
+                customMetadata: (x.userGroupMeta.customMetadata || []).reduce((p: { [key: string]: string }, e: { key: string, value: string }) => {
+                    p[e.key] = e.value;
+                    return p;
+                }, {}),
                 userGroupMeta: undefined
             })) as TFixedUserGroup[];
         } else {

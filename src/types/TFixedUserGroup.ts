@@ -6,5 +6,5 @@ export type TFixedUserGroup = Omit<UserGroup, 'userGroupMeta'> & {
     membercardCancellationDescription: string;
     subscriptionInterval?: number;
     memberLimit?: number;
-    customMetadata?: { key: string; value: string }[];
+    customMetadata: { [key: string]: string };
 };
