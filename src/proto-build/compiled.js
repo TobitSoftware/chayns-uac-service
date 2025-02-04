@@ -2461,6 +2461,130 @@ $root.UserGroup = (function() {
     return UserGroup;
 })();
 
+$root.MetadataEntry = (function() {
+
+    /**
+     * Properties of a MetadataEntry.
+     * @exports IMetadataEntry
+     * @interface IMetadataEntry
+     * @property {string|null} [key] MetadataEntry key
+     * @property {string|null} [value] MetadataEntry value
+     */
+
+    /**
+     * Constructs a new MetadataEntry.
+     * @exports MetadataEntry
+     * @classdesc Represents a MetadataEntry.
+     * @implements IMetadataEntry
+     * @constructor
+     * @param {IMetadataEntry=} [p] Properties to set
+     */
+    function MetadataEntry(p) {
+        if (p)
+            for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                if (p[ks[i]] != null)
+                    this[ks[i]] = p[ks[i]];
+    }
+
+    /**
+     * MetadataEntry key.
+     * @member {string} key
+     * @memberof MetadataEntry
+     * @instance
+     */
+    MetadataEntry.prototype.key = "";
+
+    /**
+     * MetadataEntry value.
+     * @member {string} value
+     * @memberof MetadataEntry
+     * @instance
+     */
+    MetadataEntry.prototype.value = "";
+
+    /**
+     * Creates a new MetadataEntry instance using the specified properties.
+     * @function create
+     * @memberof MetadataEntry
+     * @static
+     * @param {IMetadataEntry=} [properties] Properties to set
+     * @returns {MetadataEntry} MetadataEntry instance
+     */
+    MetadataEntry.create = function create(properties) {
+        return new MetadataEntry(properties);
+    };
+
+    /**
+     * Encodes the specified MetadataEntry message. Does not implicitly {@link MetadataEntry.verify|verify} messages.
+     * @function encode
+     * @memberof MetadataEntry
+     * @static
+     * @param {IMetadataEntry} m MetadataEntry message or plain object to encode
+     * @param {$protobuf.Writer} [w] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    MetadataEntry.encode = function encode(m, w) {
+        if (!w)
+            w = $Writer.create();
+        if (m.key != null && Object.hasOwnProperty.call(m, "key"))
+            w.uint32(10).string(m.key);
+        if (m.value != null && Object.hasOwnProperty.call(m, "value"))
+            w.uint32(18).string(m.value);
+        return w;
+    };
+
+    /**
+     * Decodes a MetadataEntry message from the specified reader or buffer.
+     * @function decode
+     * @memberof MetadataEntry
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} r Reader or buffer to decode from
+     * @param {number} [l] Message length if known beforehand
+     * @returns {MetadataEntry} MetadataEntry
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    MetadataEntry.decode = function decode(r, l) {
+        if (!(r instanceof $Reader))
+            r = $Reader.create(r);
+        var c = l === undefined ? r.len : r.pos + l, m = new $root.MetadataEntry();
+        while (r.pos < c) {
+            var t = r.uint32();
+            switch (t >>> 3) {
+            case 1: {
+                    m.key = r.string();
+                    break;
+                }
+            case 2: {
+                    m.value = r.string();
+                    break;
+                }
+            default:
+                r.skipType(t & 7);
+                break;
+            }
+        }
+        return m;
+    };
+
+    /**
+     * Gets the default type url for MetadataEntry
+     * @function getTypeUrl
+     * @memberof MetadataEntry
+     * @static
+     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns {string} The default type url
+     */
+    MetadataEntry.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        if (typeUrlPrefix === undefined) {
+            typeUrlPrefix = "type.googleapis.com";
+        }
+        return typeUrlPrefix + "/MetadataEntry";
+    };
+
+    return MetadataEntry;
+})();
+
 $root.UserGroupMeta = (function() {
 
     /**
@@ -2474,6 +2598,7 @@ $root.UserGroupMeta = (function() {
      * @property {string|null} [membercardCancellationDescription] UserGroupMeta membercardCancellationDescription
      * @property {number|null} [subscriptionInterval] UserGroupMeta subscriptionInterval
      * @property {number|null} [memberLimit] UserGroupMeta memberLimit
+     * @property {Array.<IMetadataEntry>|null} [customMetadata] UserGroupMeta customMetadata
      * @property {number|null} [walletReservationGroupId] UserGroupMeta walletReservationGroupId
      */
 
@@ -2486,6 +2611,7 @@ $root.UserGroupMeta = (function() {
      * @param {IUserGroupMeta=} [p] Properties to set
      */
     function UserGroupMeta(p) {
+        this.customMetadata = [];
         if (p)
             for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
                 if (p[ks[i]] != null)
@@ -2549,6 +2675,14 @@ $root.UserGroupMeta = (function() {
     UserGroupMeta.prototype.memberLimit = null;
 
     /**
+     * UserGroupMeta customMetadata.
+     * @member {Array.<IMetadataEntry>} customMetadata
+     * @memberof UserGroupMeta
+     * @instance
+     */
+    UserGroupMeta.prototype.customMetadata = $util.emptyArray;
+
+    /**
      * UserGroupMeta walletReservationGroupId.
      * @member {number} walletReservationGroupId
      * @memberof UserGroupMeta
@@ -2608,6 +2742,10 @@ $root.UserGroupMeta = (function() {
             w.uint32(840).int32(m.subscriptionInterval);
         if (m.memberLimit != null && Object.hasOwnProperty.call(m, "memberLimit"))
             w.uint32(848).int32(m.memberLimit);
+        if (m.customMetadata != null && m.customMetadata.length) {
+            for (var i = 0; i < m.customMetadata.length; ++i)
+                $root.MetadataEntry.encode(m.customMetadata[i], w.uint32(858).fork()).ldelim();
+        }
         if (m.walletReservationGroupId != null && Object.hasOwnProperty.call(m, "walletReservationGroupId"))
             w.uint32(8008).int32(m.walletReservationGroupId);
         return w;
@@ -2657,6 +2795,12 @@ $root.UserGroupMeta = (function() {
                 }
             case 106: {
                     m.memberLimit = r.int32();
+                    break;
+                }
+            case 107: {
+                    if (!(m.customMetadata && m.customMetadata.length))
+                        m.customMetadata = [];
+                    m.customMetadata.push($root.MetadataEntry.decode(r, r.uint32()));
                     break;
                 }
             case 1001: {

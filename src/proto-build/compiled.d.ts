@@ -918,6 +918,54 @@ export class UserGroup implements IUserGroup {
     public static getTypeUrl(typeUrlPrefix?: string): string;
 }
 
+/** Represents a MetadataEntry. */
+export class MetadataEntry implements IMetadataEntry {
+
+    /**
+     * Constructs a new MetadataEntry.
+     * @param [p] Properties to set
+     */
+    constructor(p?: IMetadataEntry);
+
+    /** MetadataEntry key. */
+    public key: string;
+
+    /** MetadataEntry value. */
+    public value: string;
+
+    /**
+     * Creates a new MetadataEntry instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns MetadataEntry instance
+     */
+    public static create(properties?: IMetadataEntry): MetadataEntry;
+
+    /**
+     * Encodes the specified MetadataEntry message. Does not implicitly {@link MetadataEntry.verify|verify} messages.
+     * @param m MetadataEntry message or plain object to encode
+     * @param [w] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(m: IMetadataEntry, w?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a MetadataEntry message from the specified reader or buffer.
+     * @param r Reader or buffer to decode from
+     * @param [l] Message length if known beforehand
+     * @returns MetadataEntry
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(r: ($protobuf.Reader|Uint8Array), l?: number): MetadataEntry;
+
+    /**
+     * Gets the default type url for MetadataEntry
+     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns The default type url
+     */
+    public static getTypeUrl(typeUrlPrefix?: string): string;
+}
+
 /** Represents a UserGroupMeta. */
 export class UserGroupMeta implements IUserGroupMeta {
 
@@ -947,6 +995,9 @@ export class UserGroupMeta implements IUserGroupMeta {
 
     /** UserGroupMeta memberLimit. */
     public memberLimit?: (number|null);
+
+    /** UserGroupMeta customMetadata. */
+    public customMetadata: IMetadataEntry[];
 
     /** UserGroupMeta walletReservationGroupId. */
     public walletReservationGroupId: number;
