@@ -867,24 +867,6 @@ export class UserGroup implements IUserGroup {
     /** UserGroup userGroupMeta. */
     public userGroupMeta?: (IUserGroupMeta|null);
 
-    /** UserGroup _isInternal. */
-    public _isInternal?: "isInternal";
-
-    /** UserGroup _enforceTwoFactorAuth. */
-    public _enforceTwoFactorAuth?: "enforceTwoFactorAuth";
-
-    /** UserGroup _workspaceManagerGroupId. */
-    public _workspaceManagerGroupId?: "workspaceManagerGroupId";
-
-    /** UserGroup _workspaceAgentGroupId. */
-    public _workspaceAgentGroupId?: "workspaceAgentGroupId";
-
-    /** UserGroup _createUserGroupRequest. */
-    public _createUserGroupRequest?: "createUserGroupRequest";
-
-    /** UserGroup _userGroupMeta. */
-    public _userGroupMeta?: "userGroupMeta";
-
     /**
      * Creates a new UserGroup instance using the specified properties.
      * @param [properties] Properties to set
@@ -1002,9 +984,6 @@ export class UserGroupMeta implements IUserGroupMeta {
     /** UserGroupMeta walletReservationGroupId. */
     public walletReservationGroupId: number;
 
-    /** UserGroupMeta _memberLimit. */
-    public _memberLimit?: "memberLimit";
-
     /**
      * Creates a new UserGroupMeta instance using the specified properties.
      * @param [properties] Properties to set
@@ -1118,15 +1097,6 @@ export class UserGroupUpdateRequest implements IUserGroupUpdateRequest {
 
     /** UserGroupUpdateRequest isWorkspace. */
     public isWorkspace?: (boolean|null);
-
-    /** UserGroupUpdateRequest _enforceTwoFactorAuth. */
-    public _enforceTwoFactorAuth?: "enforceTwoFactorAuth";
-
-    /** UserGroupUpdateRequest _memberLimit. */
-    public _memberLimit?: "memberLimit";
-
-    /** UserGroupUpdateRequest _isWorkspace. */
-    public _isWorkspace?: "isWorkspace";
 
     /**
      * Creates a new UserGroupUpdateRequest instance using the specified properties.

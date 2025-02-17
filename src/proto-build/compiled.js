@@ -2210,67 +2210,37 @@ $root.UserGroup = (function() {
     // OneOf field names bound to virtual getters and setters
     var $oneOfFields;
 
-    /**
-     * UserGroup _isInternal.
-     * @member {"isInternal"|undefined} _isInternal
-     * @memberof UserGroup
-     * @instance
-     */
+    // Virtual OneOf for proto3 optional field
     Object.defineProperty(UserGroup.prototype, "_isInternal", {
         get: $util.oneOfGetter($oneOfFields = ["isInternal"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
-    /**
-     * UserGroup _enforceTwoFactorAuth.
-     * @member {"enforceTwoFactorAuth"|undefined} _enforceTwoFactorAuth
-     * @memberof UserGroup
-     * @instance
-     */
+    // Virtual OneOf for proto3 optional field
     Object.defineProperty(UserGroup.prototype, "_enforceTwoFactorAuth", {
         get: $util.oneOfGetter($oneOfFields = ["enforceTwoFactorAuth"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
-    /**
-     * UserGroup _workspaceManagerGroupId.
-     * @member {"workspaceManagerGroupId"|undefined} _workspaceManagerGroupId
-     * @memberof UserGroup
-     * @instance
-     */
+    // Virtual OneOf for proto3 optional field
     Object.defineProperty(UserGroup.prototype, "_workspaceManagerGroupId", {
         get: $util.oneOfGetter($oneOfFields = ["workspaceManagerGroupId"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
-    /**
-     * UserGroup _workspaceAgentGroupId.
-     * @member {"workspaceAgentGroupId"|undefined} _workspaceAgentGroupId
-     * @memberof UserGroup
-     * @instance
-     */
+    // Virtual OneOf for proto3 optional field
     Object.defineProperty(UserGroup.prototype, "_workspaceAgentGroupId", {
         get: $util.oneOfGetter($oneOfFields = ["workspaceAgentGroupId"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
-    /**
-     * UserGroup _createUserGroupRequest.
-     * @member {"createUserGroupRequest"|undefined} _createUserGroupRequest
-     * @memberof UserGroup
-     * @instance
-     */
+    // Virtual OneOf for proto3 optional field
     Object.defineProperty(UserGroup.prototype, "_createUserGroupRequest", {
         get: $util.oneOfGetter($oneOfFields = ["createUserGroupRequest"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
-    /**
-     * UserGroup _userGroupMeta.
-     * @member {"userGroupMeta"|undefined} _userGroupMeta
-     * @memberof UserGroup
-     * @instance
-     */
+    // Virtual OneOf for proto3 optional field
     Object.defineProperty(UserGroup.prototype, "_userGroupMeta", {
         get: $util.oneOfGetter($oneOfFields = ["userGroupMeta"]),
         set: $util.oneOfSetter($oneOfFields)
@@ -2693,12 +2663,7 @@ $root.UserGroupMeta = (function() {
     // OneOf field names bound to virtual getters and setters
     var $oneOfFields;
 
-    /**
-     * UserGroupMeta _memberLimit.
-     * @member {"memberLimit"|undefined} _memberLimit
-     * @memberof UserGroupMeta
-     * @instance
-     */
+    // Virtual OneOf for proto3 optional field
     Object.defineProperty(UserGroupMeta.prototype, "_memberLimit", {
         get: $util.oneOfGetter($oneOfFields = ["memberLimit"]),
         set: $util.oneOfSetter($oneOfFields)
@@ -3054,34 +3019,19 @@ $root.UserGroupUpdateRequest = (function() {
     // OneOf field names bound to virtual getters and setters
     var $oneOfFields;
 
-    /**
-     * UserGroupUpdateRequest _enforceTwoFactorAuth.
-     * @member {"enforceTwoFactorAuth"|undefined} _enforceTwoFactorAuth
-     * @memberof UserGroupUpdateRequest
-     * @instance
-     */
+    // Virtual OneOf for proto3 optional field
     Object.defineProperty(UserGroupUpdateRequest.prototype, "_enforceTwoFactorAuth", {
         get: $util.oneOfGetter($oneOfFields = ["enforceTwoFactorAuth"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
-    /**
-     * UserGroupUpdateRequest _memberLimit.
-     * @member {"memberLimit"|undefined} _memberLimit
-     * @memberof UserGroupUpdateRequest
-     * @instance
-     */
+    // Virtual OneOf for proto3 optional field
     Object.defineProperty(UserGroupUpdateRequest.prototype, "_memberLimit", {
         get: $util.oneOfGetter($oneOfFields = ["memberLimit"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
-    /**
-     * UserGroupUpdateRequest _isWorkspace.
-     * @member {"isWorkspace"|undefined} _isWorkspace
-     * @memberof UserGroupUpdateRequest
-     * @instance
-     */
+    // Virtual OneOf for proto3 optional field
     Object.defineProperty(UserGroupUpdateRequest.prototype, "_isWorkspace", {
         get: $util.oneOfGetter($oneOfFields = ["isWorkspace"]),
         set: $util.oneOfSetter($oneOfFields)
