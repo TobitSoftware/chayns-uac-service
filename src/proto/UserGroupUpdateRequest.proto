@@ -10,4 +10,5 @@ message UserGroupUpdateRequest {
    optional bool enforceTwoFactorAuth = 8;
    optional int32 memberLimit = 9;
    optional bool isWorkspace = 10;
+   optional string icon = 11;
 }
