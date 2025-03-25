@@ -21,6 +21,7 @@ message UserGroup {
    optional int32 workspaceAgentGroupId = 15;
    bool isWorkspaceChild = 16;
    optional string icon = 17;
+   optional int32 workspacePageId = 18;
    int32 walletReservationGroupId = 1001;
    optional CreateUserGroupRequest createUserGroupRequest = 10000;
    optional UserGroupMeta userGroupMeta = 10001;

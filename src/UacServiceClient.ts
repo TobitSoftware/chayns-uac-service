@@ -487,7 +487,8 @@ class UacServiceClient<T extends UacServiceClientOptions> {
         parentGroupId,
         isWorkspace,
         users = [],
-        icon
+        icon,
+        workspacePageId
     }: RemoveSiteId<T, {
         siteId: string;
         showName: string;
@@ -497,6 +498,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
         isWorkspace?: boolean;
         users?: string[];
         icon: string;
+        workspacePageId?: number;
     }>) {
         const userGroup = {
             showName,
@@ -507,7 +509,8 @@ class UacServiceClient<T extends UacServiceClientOptions> {
             createUserGroupRequest: {
                 users
             },
-            icon
+            icon,
+            workspacePageId
         };
 
         const message = UserGroup.create(userGroup);
@@ -643,6 +646,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
             enableMembercard: boolean;
             memberLimit: number;
             icon: string;
+            workspacePageId: number;
         };
     }>) {
         const message = UserGroupUpdateRequest.create(values);
