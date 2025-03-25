@@ -1,6 +1,6 @@
 {
   "name": "@chayns/uac-service",
-  "version": "0.0.56",
+  "version": "0.0.57",
   "description": "",
   "exports": {
     ".": {
