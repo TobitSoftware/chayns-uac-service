@@ -788,6 +788,10 @@ class UacServiceClient<T extends UacServiceClientOptions> {
 
             const response = await this.logFetch(route, params, options);
 
+            console.debug('UacServiceClient - removeUserFromAllGroupsOfSite', {
+                response,
+            });
+
             // ToDo: Check for response status before returning success
             // ToDo: Return failed groups for partially successful removals
             return { success: true };
