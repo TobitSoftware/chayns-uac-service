@@ -765,6 +765,46 @@ class UacServiceClient<T extends UacServiceClientOptions> {
         }
     }
 
+    async removeUserFromAllGroupsOfSite({
+        forceRemovePaidMemberShips,
+        ignoreConflict,
+        personId,
+        siteId,
+    }: {
+        forceRemovePaidMemberShips?: boolean;
+        ignoreConflict?: boolean;
+        personId: string;
+        siteId: string;
+    }): Promise<{ success: boolean }> {
+        const searchParams = new URLSearchParams();
+
+        if (forceRemovePaidMemberShips) searchParams.set('forceRemovePaidMemberShips', 'true');
+
+        try {
+            // ToDo: Remove fallback or make `personId` optional in function parameters
+            const pathPersonId = personId ?? this.getDefaultPersonId?.();
+
+            if (!pathPersonId) {
+                throw new Error('No personId provided and no default personId set');
+            }
+
+            const route = `UserGroup/Users/${pathPersonId}?${searchParams.toString()}`;
+
+            const params = { method: 'DELETE' };
+            const options = { siteId, roles: [ApiRoles.ManageMembers] };
+
+            const response = await this.logFetch(route, params, options);
+
+            // ToDo: Check for response status before returning success
+            // ToDo: Return failed groups for partially successful removals
+            return { success: true };
+        } catch (e) {
+            if (!ignoreConflict) throw e;
+
+            return { success: false };
+        }
+    }
+
     /**
      * Gets the personId either from the provided options or from the client-settings
      * @param options
