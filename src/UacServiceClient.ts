@@ -781,14 +781,7 @@ class UacServiceClient<T extends UacServiceClientOptions> {
         if (forceRemovePaidMemberShips) searchParams.set('forceRemovePaidMemberShips', 'true');
 
         try {
-            // ToDo: Remove fallback or make `personId` optional in function parameters
-            const pathPersonId = personId ?? this.getDefaultPersonId?.();
-
-            if (!pathPersonId) {
-                throw new Error('No personId provided and no default personId set');
-            }
-
-            const route = `UserGroup/Users/${pathPersonId}?${searchParams.toString()}`;
+            const route = `UserGroup/Users/${personId}?${searchParams.toString()}`;
 
             const params = { method: 'DELETE' };
             const options = { siteId, roles: [ApiRoles.ManageMembers] };
