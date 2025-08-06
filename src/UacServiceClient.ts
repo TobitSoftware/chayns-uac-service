@@ -719,12 +719,13 @@ class UacServiceClient<T extends UacServiceClientOptions> {
     }
 
     /**
-     * Remove a user from a uac group
+     * Remove a user from an uac group
      * @param personId
      * @param groupId
      * @param siteId
      * @param ignoreConflict
      * @param force whether to force remove user from known users even if still in any paid uac group
+     * @param forceRemoveLocationUserWhenManager whether to force remove user as a location user when he is a manager
      */
     async removeUserFromGroup({
         personId,
@@ -732,15 +733,19 @@ class UacServiceClient<T extends UacServiceClientOptions> {
         siteId,
         ignoreConflict,
         force = false,
+        forceRemoveLocationUserWhenManager = false,
     }: RemoveSiteId<T, {
         groupId: number;
         siteId: string;
         personId: string;
         ignoreConflict: boolean;
         force?: boolean;
+        forceRemoveLocationUserWhenManager?: boolean;
     }>): Promise<{ success: boolean, expirationTime: string | undefined }> { // TODO: why is here no exception?
         const query = new URLSearchParams();
+
         if (force) query.set('force', String(force));
+        if (forceRemoveLocationUserWhenManager) query.set('forceRemoveLocationUserWhenManager', String(forceRemoveLocationUserWhenManager));
 
         try {
             const queryPersonId = personId || (this.getDefaultPersonId && this.getDefaultPersonId());
