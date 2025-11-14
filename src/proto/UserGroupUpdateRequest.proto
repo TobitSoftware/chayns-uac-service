@@ -12,4 +12,5 @@ message UserGroupUpdateRequest {
    optional bool isWorkspace = 10;
    optional string icon = 11;
    optional int32 workspacePageId = 12;
+   optional bool requiresConfirmation = 14;
 }

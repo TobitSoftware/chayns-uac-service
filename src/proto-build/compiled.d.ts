@@ -858,6 +858,15 @@ export class UserGroup implements IUserGroup {
     /** UserGroup isWorkspaceChild. */
     public isWorkspaceChild: boolean;
 
+    /** UserGroup icon. */
+    public icon?: (string|null);
+
+    /** UserGroup workspacePageId. */
+    public workspacePageId?: (number|null);
+
+    /** UserGroup requiresConfirmation. */
+    public requiresConfirmation: boolean;
+
     /** UserGroup walletReservationGroupId. */
     public walletReservationGroupId: number;
 
@@ -1097,6 +1106,15 @@ export class UserGroupUpdateRequest implements IUserGroupUpdateRequest {
 
     /** UserGroupUpdateRequest isWorkspace. */
     public isWorkspace?: (boolean|null);
+
+    /** UserGroupUpdateRequest icon. */
+    public icon?: (string|null);
+
+    /** UserGroupUpdateRequest workspacePageId. */
+    public workspacePageId?: (number|null);
+
+    /** UserGroupUpdateRequest requiresConfirmation. */
+    public requiresConfirmation?: (boolean|null);
 
     /**
      * Creates a new UserGroupUpdateRequest instance using the specified properties.

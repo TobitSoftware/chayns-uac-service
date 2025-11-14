@@ -2035,6 +2035,9 @@ $root.UserGroup = (function() {
      * @property {number|null} [workspaceManagerGroupId] UserGroup workspaceManagerGroupId
      * @property {number|null} [workspaceAgentGroupId] UserGroup workspaceAgentGroupId
      * @property {boolean|null} [isWorkspaceChild] UserGroup isWorkspaceChild
+     * @property {string|null} [icon] UserGroup icon
+     * @property {number|null} [workspacePageId] UserGroup workspacePageId
+     * @property {boolean|null} [requiresConfirmation] UserGroup requiresConfirmation
      * @property {number|null} [walletReservationGroupId] UserGroup walletReservationGroupId
      * @property {ICreateUserGroupRequest|null} [createUserGroupRequest] UserGroup createUserGroupRequest
      * @property {IUserGroupMeta|null} [userGroupMeta] UserGroup userGroupMeta
@@ -2184,6 +2187,30 @@ $root.UserGroup = (function() {
     UserGroup.prototype.isWorkspaceChild = false;
 
     /**
+     * UserGroup icon.
+     * @member {string|null|undefined} icon
+     * @memberof UserGroup
+     * @instance
+     */
+    UserGroup.prototype.icon = null;
+
+    /**
+     * UserGroup workspacePageId.
+     * @member {number|null|undefined} workspacePageId
+     * @memberof UserGroup
+     * @instance
+     */
+    UserGroup.prototype.workspacePageId = null;
+
+    /**
+     * UserGroup requiresConfirmation.
+     * @member {boolean} requiresConfirmation
+     * @memberof UserGroup
+     * @instance
+     */
+    UserGroup.prototype.requiresConfirmation = false;
+
+    /**
      * UserGroup walletReservationGroupId.
      * @member {number} walletReservationGroupId
      * @memberof UserGroup
@@ -2231,6 +2258,18 @@ $root.UserGroup = (function() {
     // Virtual OneOf for proto3 optional field
     Object.defineProperty(UserGroup.prototype, "_workspaceAgentGroupId", {
         get: $util.oneOfGetter($oneOfFields = ["workspaceAgentGroupId"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    // Virtual OneOf for proto3 optional field
+    Object.defineProperty(UserGroup.prototype, "_icon", {
+        get: $util.oneOfGetter($oneOfFields = ["icon"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    // Virtual OneOf for proto3 optional field
+    Object.defineProperty(UserGroup.prototype, "_workspacePageId", {
+        get: $util.oneOfGetter($oneOfFields = ["workspacePageId"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
@@ -2302,6 +2341,12 @@ $root.UserGroup = (function() {
             w.uint32(120).int32(m.workspaceAgentGroupId);
         if (m.isWorkspaceChild != null && Object.hasOwnProperty.call(m, "isWorkspaceChild"))
             w.uint32(128).bool(m.isWorkspaceChild);
+        if (m.icon != null && Object.hasOwnProperty.call(m, "icon"))
+            w.uint32(138).string(m.icon);
+        if (m.workspacePageId != null && Object.hasOwnProperty.call(m, "workspacePageId"))
+            w.uint32(144).int32(m.workspacePageId);
+        if (m.requiresConfirmation != null && Object.hasOwnProperty.call(m, "requiresConfirmation"))
+            w.uint32(152).bool(m.requiresConfirmation);
         if (m.walletReservationGroupId != null && Object.hasOwnProperty.call(m, "walletReservationGroupId"))
             w.uint32(8008).int32(m.walletReservationGroupId);
         if (m.createUserGroupRequest != null && Object.hasOwnProperty.call(m, "createUserGroupRequest"))
@@ -2391,6 +2436,18 @@ $root.UserGroup = (function() {
                 }
             case 16: {
                     m.isWorkspaceChild = r.bool();
+                    break;
+                }
+            case 17: {
+                    m.icon = r.string();
+                    break;
+                }
+            case 18: {
+                    m.workspacePageId = r.int32();
+                    break;
+                }
+            case 19: {
+                    m.requiresConfirmation = r.bool();
                     break;
                 }
             case 1001: {
@@ -2927,6 +2984,9 @@ $root.UserGroupUpdateRequest = (function() {
      * @property {boolean|null} [enforceTwoFactorAuth] UserGroupUpdateRequest enforceTwoFactorAuth
      * @property {number|null} [memberLimit] UserGroupUpdateRequest memberLimit
      * @property {boolean|null} [isWorkspace] UserGroupUpdateRequest isWorkspace
+     * @property {string|null} [icon] UserGroupUpdateRequest icon
+     * @property {number|null} [workspacePageId] UserGroupUpdateRequest workspacePageId
+     * @property {boolean|null} [requiresConfirmation] UserGroupUpdateRequest requiresConfirmation
      */
 
     /**
@@ -3016,6 +3076,30 @@ $root.UserGroupUpdateRequest = (function() {
      */
     UserGroupUpdateRequest.prototype.isWorkspace = null;
 
+    /**
+     * UserGroupUpdateRequest icon.
+     * @member {string|null|undefined} icon
+     * @memberof UserGroupUpdateRequest
+     * @instance
+     */
+    UserGroupUpdateRequest.prototype.icon = null;
+
+    /**
+     * UserGroupUpdateRequest workspacePageId.
+     * @member {number|null|undefined} workspacePageId
+     * @memberof UserGroupUpdateRequest
+     * @instance
+     */
+    UserGroupUpdateRequest.prototype.workspacePageId = null;
+
+    /**
+     * UserGroupUpdateRequest requiresConfirmation.
+     * @member {boolean|null|undefined} requiresConfirmation
+     * @memberof UserGroupUpdateRequest
+     * @instance
+     */
+    UserGroupUpdateRequest.prototype.requiresConfirmation = null;
+
     // OneOf field names bound to virtual getters and setters
     var $oneOfFields;
 
@@ -3034,6 +3118,24 @@ $root.UserGroupUpdateRequest = (function() {
     // Virtual OneOf for proto3 optional field
     Object.defineProperty(UserGroupUpdateRequest.prototype, "_isWorkspace", {
         get: $util.oneOfGetter($oneOfFields = ["isWorkspace"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    // Virtual OneOf for proto3 optional field
+    Object.defineProperty(UserGroupUpdateRequest.prototype, "_icon", {
+        get: $util.oneOfGetter($oneOfFields = ["icon"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    // Virtual OneOf for proto3 optional field
+    Object.defineProperty(UserGroupUpdateRequest.prototype, "_workspacePageId", {
+        get: $util.oneOfGetter($oneOfFields = ["workspacePageId"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    // Virtual OneOf for proto3 optional field
+    Object.defineProperty(UserGroupUpdateRequest.prototype, "_requiresConfirmation", {
+        get: $util.oneOfGetter($oneOfFields = ["requiresConfirmation"]),
         set: $util.oneOfSetter($oneOfFields)
     });
 
@@ -3079,6 +3181,12 @@ $root.UserGroupUpdateRequest = (function() {
             w.uint32(72).int32(m.memberLimit);
         if (m.isWorkspace != null && Object.hasOwnProperty.call(m, "isWorkspace"))
             w.uint32(80).bool(m.isWorkspace);
+        if (m.icon != null && Object.hasOwnProperty.call(m, "icon"))
+            w.uint32(90).string(m.icon);
+        if (m.workspacePageId != null && Object.hasOwnProperty.call(m, "workspacePageId"))
+            w.uint32(96).int32(m.workspacePageId);
+        if (m.requiresConfirmation != null && Object.hasOwnProperty.call(m, "requiresConfirmation"))
+            w.uint32(112).bool(m.requiresConfirmation);
         return w;
     };
 
@@ -3134,6 +3242,18 @@ $root.UserGroupUpdateRequest = (function() {
                 }
             case 10: {
                     m.isWorkspace = r.bool();
+                    break;
+                }
+            case 11: {
+                    m.icon = r.string();
+                    break;
+                }
+            case 12: {
+                    m.workspacePageId = r.int32();
+                    break;
+                }
+            case 14: {
+                    m.requiresConfirmation = r.bool();
                     break;
                 }
             default:
