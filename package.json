@@ -12,6 +12,10 @@
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "types": "./lib/cjs/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TobitSoftware/chayns-uac-service.git"
+  },
   "keywords": [
     "chayns",
     "chayns-toolkit",
